@@ -1,0 +1,97 @@
+/* Noor Hifz — madrasah module + PWA chrome */
+:root{--gm:#2F5CC0;--gf:#B83B78}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--gm:#7CA2F5;--gf:#F08DB8}}
+:root[data-theme="dark"]{--gm:#7CA2F5;--gf:#F08DB8}
+
+/* ---- app-like behaviour ---- */
+body{-webkit-tap-highlight-color:transparent}
+header.top{padding-top:env(safe-area-inset-top)}
+.wrap{padding-bottom:calc(84px + env(safe-area-inset-bottom))}
+@media (display-mode:standalone){body{overscroll-behavior-y:contain}}
+
+/* ---- PWA bars ---- */
+.pwa-bar{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(14px + env(safe-area-inset-bottom));z-index:85;width:min(520px,calc(100% - 24px));background:var(--panel);border:1px solid var(--gold);border-radius:14px;padding:14px 16px;box-shadow:0 14px 40px rgba(0,0,0,.28);display:none}
+.pwa-bar.show{display:block;animation:rise .4s var(--ease)}
+.pwa-bar .row{margin-top:10px}
+.offline-bar{position:fixed;top:0;left:0;right:0;z-index:95;background:var(--coral);color:#fff;text-align:center;font-size:12.5px;font-weight:600;padding:calc(6px + env(safe-area-inset-top)) 10px 6px;transform:translateY(-110%);transition:transform .35s var(--ease)}
+.offline-bar.show{transform:none}
+
+/* ---- small components ---- */
+.stars{position:relative;display:inline-block;letter-spacing:2px;color:var(--line);font-size:15px;line-height:1;white-space:nowrap;vertical-align:middle}
+.stars::before{content:"★★★★★";position:absolute;left:0;top:0;width:calc(var(--v,0)/5*100%);overflow:hidden;color:var(--gold)}
+.stars.lg{font-size:22px}
+.gchip{font-size:10.5px;font-weight:700;padding:3px 9px;border-radius:99px;white-space:nowrap}
+.g-male{background:color-mix(in srgb,var(--gm) 16%,transparent);color:var(--gm)}
+.g-female{background:color-mix(in srgb,var(--gf) 16%,transparent);color:var(--gf)}
+.codecard{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;border:1.5px dashed var(--gold);border-radius:12px;padding:16px 18px;background:color-mix(in srgb,var(--gold) 8%,transparent)}
+.code-big{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:30px;font-weight:700;letter-spacing:.14em;color:var(--heading)}
+.codepill{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:13px;letter-spacing:.08em;background:var(--line-soft);padding:6px 10px;border-radius:8px;user-select:all}
+.coderow{display:flex;align-items:center;gap:8px;flex-wrap:wrap;padding:8px 0;border-bottom:1px dashed var(--line)}
+.coderow:last-child{border-bottom:none}
+.codeinput{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:24px;letter-spacing:.22em;text-align:center;text-transform:uppercase;font-weight:700;padding:14px}
+.okline{font-size:13px;color:var(--c-certified);font-weight:600;margin-top:8px}
+.reveal{display:none}.reveal.open{display:block;animation:rise .4s var(--ease)}
+.risk{color:var(--coral);font-weight:700}
+.mini{height:6px}
+.seg{display:flex;gap:8px}
+.segopt{flex:1;position:relative;margin:0!important}
+.segopt input{position:absolute;opacity:0;width:0;height:0}
+.segopt span{display:block;text-align:center;padding:11px;border:1.5px solid var(--line);border-radius:8px;cursor:pointer;font-weight:600;font-size:13.5px;color:var(--ink);transition:.2s var(--ease)}
+.segopt input:checked+span{border-color:var(--gold);background:color-mix(in srgb,var(--gold) 12%,transparent);transform:translateY(-1px)}
+.segopt input:focus-visible+span{outline:2.5px solid var(--gold);outline-offset:2px}
+.scopebar{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:14px}
+.scopebar select{width:auto;min-width:220px}
+
+/* ---- charts ---- */
+.donut{width:150px;height:150px;flex-shrink:0}
+.donut circle{fill:none;stroke-width:14;transform:rotate(-90deg);transform-origin:50% 50%}
+.donut .dseg{transition:stroke-dasharray 1.1s var(--ease)}
+.donut text{font-family:Lora,Georgia,serif;fill:var(--heading)}
+.legend{display:flex;flex-direction:column;gap:9px;font-size:13px}
+.legend i{display:inline-block;width:11px;height:11px;border-radius:3px;margin-right:8px;vertical-align:-1px}
+.gr{transform-box:fill-box;transform-origin:bottom;animation:grow .9s var(--ease) both}
+@keyframes grow{from{transform:scaleY(0)}}
+.drawline{stroke-dasharray:1;stroke-dashoffset:1;animation:draw1 1.3s var(--ease) forwards}
+@keyframes draw1{to{stroke-dashoffset:0}}
+.heat{display:grid;grid-template-rows:repeat(7,1fr);grid-auto-flow:column;gap:4px;overflow-x:auto;padding-bottom:6px}
+.heat i{width:16px;height:16px;border-radius:4px;background:var(--line-soft);display:block}
+.heat i[data-l="1"]{background:color-mix(in srgb,var(--gold) 30%,var(--line-soft))}
+.heat i[data-l="2"]{background:color-mix(in srgb,var(--gold) 55%,var(--line-soft))}
+.heat i[data-l="3"]{background:color-mix(in srgb,var(--gold) 80%,var(--line-soft))}
+.heat i[data-l="4"]{background:var(--gold)}
+.insight{display:flex;gap:12px;align-items:flex-start;padding:10px 0;border-bottom:1px solid var(--line-soft);font-size:13.5px}
+.insight:last-child{border-bottom:none}
+.insight b.ic{font-size:18px;line-height:1.3}
+
+/* ---- teacher logging ---- */
+.starinput{display:flex;gap:4px;align-items:center;flex-wrap:wrap}
+.starinput button{border:none;background:none;font-size:36px;line-height:1;color:var(--line);cursor:pointer;transition:transform .15s var(--ease),color .15s;padding:2px 3px;min-width:44px;min-height:44px}
+.starinput button.on{color:var(--gold)}
+.starinput button:hover{transform:scale(1.18) rotate(-6deg)}
+.starinput button:active{transform:scale(.9)}
+.ratelab{font-size:13px;font-weight:700;color:var(--heading);margin-left:6px;min-width:90px}
+.stu{border:1px solid var(--gold);border-radius:12px;padding:16px;background:color-mix(in srgb,var(--gold) 7%,var(--panel));animation:pop .35s var(--ease);margin-bottom:16px}
+.qchips{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
+.qchips button{border:1px solid var(--line);background:var(--panel);color:var(--ink-soft);padding:7px 12px;border-radius:99px;font-size:12.5px;font-weight:600;cursor:pointer;transition:.2s;min-height:36px}
+.qchips button:hover{border-color:var(--gold);color:var(--ink)}
+.stepper{display:flex;gap:8px;align-items:center}
+.stepper input{text-align:center;font-weight:700;font-size:18px}
+.stepper button{min-width:46px;height:46px;border-radius:10px;border:1px solid var(--line);background:var(--panel);font-size:20px;cursor:pointer;color:var(--ink)}
+.stepper button:active{transform:scale(.92)}
+.okcard{border:1.5px solid var(--c-certified);border-radius:12px;padding:16px;background:color-mix(in srgb,var(--c-certified) 9%,transparent);animation:pop .4s var(--ease);margin-bottom:16px}
+
+/* ---- student feedback timeline ---- */
+.tl{position:relative;padding-left:24px}
+.tl::before{content:"";position:absolute;left:6px;top:6px;bottom:6px;width:2px;background:var(--line)}
+.tli{position:relative;margin-bottom:16px;animation:rise .45s var(--ease) both;animation-delay:calc(var(--i,0)*70ms)}
+.tli::before{content:"";position:absolute;left:-23px;top:5px;width:12px;height:12px;border-radius:50%;background:var(--gold);border:2px solid var(--panel)}
+.quote{border-left:3px solid var(--gold);background:var(--line-soft);padding:9px 12px;border-radius:0 8px 8px 0;font-size:13.5px;margin-top:8px;font-style:italic}
+.report h1{font-size:22px;margin-bottom:4px}.report table{width:100%;border-collapse:collapse;font-size:12.5px;margin-top:12px}
+.report th,.report td{border:1px solid #bbb;padding:6px 8px;text-align:left;vertical-align:top}
+@media print{.report{color:#000;background:#fff}}
+@media(max-width:600px){
+  .code-big{font-size:24px}.codeinput{font-size:20px}
+  .starinput button{font-size:32px}
+  .donut{width:130px;height:130px}
+  .scopebar select{width:100%}
+}

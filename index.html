@@ -1,0 +1,808 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Noor Hifz — Qur'an Memorization &amp; Madrasah Tahfidh</title>
+<meta name="description" content="Plan your Qur'an memorization, recite before teachers and scholars, and track progress across your madrasah.">
+<meta name="theme-color" content="#FBF8EF" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0C1512" media="(prefers-color-scheme: dark)">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Noor Hifz">
+<link rel="manifest" href="/manifest.webmanifest">
+<link rel="apple-touch-icon" href="/icons/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/icons/favicon-32.png">
+<link rel="stylesheet" href="/css/madrasah.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📖</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Inter:wght@400;500;600;700&family=Lora:wght@500;600&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+<style>
+@property --pct{syntax:'<number>';inherits:false;initial-value:0;}
+:root{
+  --ink:#152722;--ink-soft:#5B7069;--gold:#B08A34;--gold-bright:#D9B968;
+  --accent:#0F3D3A;--on-accent:#fff;--heading:#0F3D3A;--coral:#B85C3E;
+  --bg:#FBF8EF;--panel:#fff;--line:#E7DFC8;--line-soft:#F0EAD8;
+  --c-pending:#9C7A1E;--c-review:#2E4A9C;--c-corrections:#B85C2E;--c-certified:#2F7A46;
+  --shadow:0 1px 2px rgba(21,39,34,.05);--ease:cubic-bezier(.22,1,.36,1);
+}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --ink:#EDE8D9;--ink-soft:#A9B8B1;--gold:#D9B968;--gold-bright:#EBD292;
+  --accent:#D9B968;--on-accent:#0A2A28;--heading:#EBD292;
+  --bg:#0C1512;--panel:#132420;--line:#25362E;--line-soft:#1B2A25;
+  --c-pending:#D9AE45;--c-review:#7C9CEB;--c-corrections:#E8895C;--c-certified:#5DBB7B;--shadow:0 1px 3px rgba(0,0,0,.35);}}
+:root[data-theme="dark"]{
+  --ink:#EDE8D9;--ink-soft:#A9B8B1;--gold:#D9B968;--gold-bright:#EBD292;
+  --accent:#D9B968;--on-accent:#0A2A28;--heading:#EBD292;
+  --bg:#0C1512;--panel:#132420;--line:#25362E;--line-soft:#1B2A25;
+  --c-pending:#D9AE45;--c-review:#7C9CEB;--c-corrections:#E8895C;--c-certified:#5DBB7B;--shadow:0 1px 3px rgba(0,0,0,.35);}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;min-height:100vh;background:var(--bg);color:var(--ink);font-family:Inter,-apple-system,sans-serif;line-height:1.55;-webkit-font-smoothing:antialiased;transition:background .3s,color .3s}
+body::before{content:"";position:fixed;inset:0;z-index:-1;opacity:.05;pointer-events:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 80 80'%3E%3Cg fill='none' stroke='%23B08A34' stroke-width='1'%3E%3Crect x='20' y='20' width='40' height='40'/%3E%3Crect x='20' y='20' width='40' height='40' transform='rotate(45 40 40)'/%3E%3C/g%3E%3C/svg%3E")}
+h1,h2,h3{font-family:Lora,Georgia,serif;font-weight:600;margin:0;color:var(--heading)}
+button{font-family:inherit}
+@media(prefers-reduced-motion:reduce){*{animation-duration:.01ms!important;transition-duration:.01ms!important}}
+@keyframes rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+@keyframes fade{from{opacity:0}to{opacity:1}}
+@keyframes pop{from{opacity:0;transform:scale(.93)}to{opacity:1;transform:none}}
+@keyframes shake{25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes sh{to{background-position:-200% 0}}
+@keyframes float{50%{transform:translateY(-10px)}}
+@keyframes pulse{0%{box-shadow:0 0 0 0 color-mix(in srgb,var(--gold) 50%,transparent)}100%{box-shadow:0 0 0 14px transparent}}
+.wrap{max-width:980px;margin:0 auto;padding:22px 20px 80px}
+#main.enter{animation:fade .35s var(--ease)}
+.st{animation:rise .55s var(--ease) both;animation-delay:calc(var(--i,0)*70ms)}
+
+header.top{position:sticky;top:0;z-index:20;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.brandrow{max-width:980px;margin:0 auto;padding:12px 20px;display:flex;align-items:center;justify-content:space-between;gap:12px}
+.brand{display:flex;align-items:center;gap:10px;cursor:pointer}
+.mark{width:36px;height:36px;border-radius:50%;background:radial-gradient(circle at 30% 30%,var(--gold-bright),var(--gold));display:grid;place-items:center;color:#0A2A28;font-weight:700;font-size:15px;flex-shrink:0}
+.brand b{font-family:Lora,serif;font-size:18px;color:var(--heading)}
+.rightrow{display:flex;align-items:center;gap:10px}
+.iconbtn{width:36px;height:36px;border-radius:50%;border:1px solid var(--line);background:var(--panel);cursor:pointer;font-size:15px;transition:.15s}
+.iconbtn:hover{border-color:var(--gold);transform:rotate(15deg)}
+.tabsbar{max-width:980px;margin:0 auto;padding:0 20px 10px;display:flex;gap:6px;overflow-x:auto;scrollbar-width:none}
+.tabsbar::-webkit-scrollbar{display:none}
+.tabsbar button{border:1px solid transparent;background:transparent;color:var(--ink-soft);padding:8px 15px;border-radius:99px;font-size:13.5px;font-weight:600;cursor:pointer;white-space:nowrap;transition:.2s var(--ease)}
+.tabsbar button:hover{color:var(--ink);background:var(--line-soft)}
+.tabsbar button.active{background:var(--accent);color:var(--on-accent)}
+.chip{font-size:10.5px;font-weight:700;padding:4px 10px;border-radius:99px;letter-spacing:.04em;text-transform:uppercase;background:color-mix(in srgb,var(--gold) 18%,transparent);color:var(--gold)}
+.userbox{display:flex;align-items:center;gap:8px}
+.avatar{width:32px;height:32px;border-radius:50%;background:var(--accent);color:var(--on-accent);display:grid;place-items:center;font-size:12.5px;font-weight:700;flex-shrink:0}
+.uname{font-size:13px;font-weight:600;max-width:110px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+@media(max-width:560px){.uname,.chip{display:none}}
+html,body{overflow-x:hidden;max-width:100%}
+img,svg{max-width:100%}
+@media(max-width:600px){
+  .wrap{padding:16px 14px 70px}
+  .brandrow{padding:10px 14px}
+  .tabsbar{padding:0 14px 10px}
+  .tabsbar button{padding:10px 14px;font-size:13px;min-height:40px}
+  .iconbtn,.themebtn{width:40px;height:40px}
+  .panel{padding:17px 15px}
+  .panel h2{font-size:16.5px}
+  .btn{padding:12px 18px;width:100%;justify-content:center}
+  .row.between .btn,.row .btn.sm,.mini-btns .btn,.chips button,.navrow .btn,table .btn,.row .btn.ghost{width:auto}
+  .modal{padding:18px;border-radius:10px}
+  .resultwrap{gap:18px}
+  .ring{--s:120px!important}
+  .ar{font-size:23px;line-height:1.9}
+  .authhero h1,.gatehero h1{font-size:20px}
+  .stat b{font-size:21px}
+  .cert{padding:20px 14px}
+  .grid.g4{grid-template-columns:1fr 1fr;gap:10px}
+}
+@media(max-width:380px){
+  .grid.g4{grid-template-columns:1fr}
+  .steps{gap:5px}
+}
+
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:22px;margin-bottom:16px;box-shadow:var(--shadow);position:relative}
+.panel>h2:first-child::before{content:"";display:block;height:3px;width:40px;margin-bottom:12px;border-radius:2px;background:linear-gradient(90deg,var(--gold),var(--gold-bright))}
+.panel h2{font-size:18px;margin-bottom:6px}
+.hint{font-size:12.5px;color:var(--ink-soft);margin:4px 0 0}
+.grid{display:grid;gap:14px}
+.g2{grid-template-columns:1fr 1fr}.g3{grid-template-columns:repeat(3,1fr)}.g4{grid-template-columns:repeat(4,1fr)}
+@media(max-width:720px){.g2,.g3{grid-template-columns:1fr}.g4{grid-template-columns:1fr 1fr}}
+label{display:block;font-size:12.5px;color:var(--ink-soft);margin:0 0 6px;font-weight:600}
+input,select,textarea{width:100%;padding:11px 12px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink);font:inherit;font-size:14.5px;transition:border-color .15s,box-shadow .15s}
+input:focus,select:focus,textarea:focus{outline:none;border-color:var(--gold);box-shadow:0 0 0 3px color-mix(in srgb,var(--gold) 20%,transparent)}
+textarea{resize:vertical;min-height:70px}
+input.err{border-color:var(--coral);animation:shake .3s}
+.field{margin-bottom:14px}
+.ferr{font-size:12px;color:var(--coral);margin-top:5px;display:none}.ferr.show{display:block}
+.btn{border:none;background:var(--accent);color:var(--on-accent);padding:11px 22px;border-radius:8px;font-weight:700;font-size:14px;cursor:pointer;transition:transform .12s var(--ease),box-shadow .2s;display:inline-flex;align-items:center;justify-content:center;gap:6px}
+.btn:hover{box-shadow:0 6px 16px color-mix(in srgb,var(--accent) 30%,transparent);transform:translateY(-1px)}
+.btn:active{transform:scale(.97)}
+.btn.ghost{background:transparent;color:var(--ink);border:1px solid var(--line);box-shadow:none}
+.btn.ghost:hover{border-color:var(--gold)}
+.btn.sm{padding:7px 13px;font-size:12.5px}
+.btn.danger{background:var(--coral);color:#fff}
+.btn[disabled]{opacity:.55;cursor:not-allowed;transform:none}
+.spin{width:14px;height:14px;border:2px solid currentColor;border-top-color:transparent;border-radius:50%;animation:spin .7s linear infinite;display:inline-block}
+.row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}.between{justify-content:space-between}
+.empty{text-align:center;color:var(--ink-soft);padding:28px 10px;font-size:14px}
+.empty .big{font-size:34px;display:block;margin-bottom:6px;animation:float 3s ease-in-out infinite}
+.skel{background:linear-gradient(90deg,var(--line-soft),var(--line),var(--line-soft));background-size:200% 100%;animation:sh 1.2s infinite;border-radius:8px;height:60px;margin-bottom:10px}
+
+.badge{font-size:10.5px;font-weight:700;padding:4px 11px;border-radius:99px;white-space:nowrap;background:color-mix(in srgb,var(--c) 15%,transparent);color:var(--c)}
+.b-pending{--c:var(--c-pending)}.b-review{--c:var(--c-review)}.b-corrections{--c:var(--c-corrections)}.b-certified{--c:var(--c-certified)}
+.b-approved{--c:var(--c-certified)}.b-rejected{--c:var(--c-corrections)}
+
+.steps{display:flex;gap:8px;margin-bottom:22px}
+.steps i{flex:1;height:4px;border-radius:4px;background:var(--line);position:relative;overflow:hidden}
+.steps i::after{content:"";position:absolute;inset:0;background:var(--gold);transform:scaleX(0);transform-origin:left;transition:transform .5s var(--ease)}
+.steps i.on::after{transform:none}
+.stepcard{display:none}.stepcard.on{display:block;animation:rise .4s var(--ease)}
+.slabel{font-size:11px;text-transform:uppercase;letter-spacing:.07em;color:var(--gold);font-weight:700}
+.sq{font-family:Lora,serif;font-size:18px;color:var(--heading);margin:4px 0 18px}
+
+.ring{--pct:0;width:var(--s,140px);height:var(--s,140px);border-radius:50%;flex-shrink:0;background:conic-gradient(var(--gold) calc(var(--pct)*1%),var(--line-soft) 0);display:grid;place-items:center;transition:--pct 1.3s var(--ease)}
+.ring div{width:calc(var(--s,140px) - 28px);height:calc(var(--s,140px) - 28px);border-radius:50%;background:var(--panel);display:grid;place-content:center;text-align:center}
+.ring b{font-size:24px;font-family:Lora,serif;color:var(--heading)}.ring small{font-size:10.5px;color:var(--ink-soft)}
+.stat{border:1px solid var(--line);border-radius:10px;padding:14px 16px;background:var(--bg);transition:transform .2s var(--ease),border-color .2s}
+.stat:hover{transform:translateY(-3px);border-color:var(--gold)}
+.stat b{display:block;font-size:26px;font-family:Lora,serif;color:var(--heading);line-height:1.2}
+.stat span{font-size:11.5px;color:var(--ink-soft)}
+.bar{height:9px;background:var(--line-soft);border-radius:9px;overflow:hidden}
+.sparkpath{stroke-dasharray:420;stroke-dashoffset:420;animation:draw 1.2s var(--ease) forwards}
+@keyframes draw{to{stroke-dashoffset:0}}
+.bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--gold),var(--gold-bright));border-radius:9px;transition:width 1.1s var(--ease)}
+.switch{position:relative;width:42px;height:24px;flex-shrink:0}.switch input{opacity:0;width:0;height:0}
+.slider{position:absolute;inset:0;background:var(--line);border-radius:99px;cursor:pointer;transition:.2s}
+.slider::before{content:"";position:absolute;width:18px;height:18px;left:3px;top:3px;background:#fff;border-radius:50%;transition:.2s}
+.switch input:checked+.slider{background:var(--accent)}.switch input:checked+.slider::before{transform:translateX(18px)}
+.streak{display:inline-flex;align-items:center;gap:6px;font-weight:700}
+.flame{display:inline-block;animation:float 1.6s ease-in-out infinite}
+
+.scard{border:1px solid var(--line);border-radius:10px;padding:18px;background:var(--panel);transition:transform .25s var(--ease),box-shadow .25s,border-color .25s;display:flex;flex-direction:column;gap:8px}
+.scard:hover{transform:translateY(-4px);box-shadow:0 14px 30px rgba(15,61,58,.1);border-color:var(--gold)}
+.scard .avatar{width:44px;height:44px;font-size:16px;font-family:Lora,serif}
+.tag{font-size:10.5px;border:1px solid var(--line);padding:3px 9px;border-radius:99px;color:var(--ink-soft);display:inline-block;margin:0 5px 5px 0}
+.card{border:1px solid var(--line);border-radius:10px;padding:16px;margin-bottom:12px;background:var(--panel);animation:rise .4s var(--ease) both;animation-delay:calc(var(--i,0)*60ms)}
+.meta{font-size:12px;color:var(--ink-soft)}
+.track{display:flex;margin:14px 0 4px}
+.tk{flex:1;text-align:center;position:relative;font-size:10.5px;color:var(--ink-soft)}
+.tk i{display:block;width:14px;height:14px;border-radius:50%;background:var(--line);margin:0 auto 5px;position:relative;z-index:1;transition:.4s}
+.tk::before{content:"";position:absolute;top:6px;left:-50%;width:100%;height:2px;background:var(--line);transition:.4s}
+.tk:first-child::before{display:none}
+.tk.done i,.tk.now i{background:var(--gold)}.tk.done::before,.tk.now::before{background:var(--gold)}
+.tk.now i{animation:pulse 1.6s infinite}.tk.now{color:var(--ink);font-weight:700}
+.fb{background:var(--line-soft);border-left:3px solid var(--gold);padding:10px 12px;border-radius:0 8px 8px 0;font-size:13px;margin-top:10px}
+.chips{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px}
+.chips button{border:1px solid var(--line);background:var(--panel);color:var(--ink-soft);padding:6px 13px;border-radius:99px;font-size:12.5px;font-weight:600;cursor:pointer;transition:.2s}
+.chips button.on{background:var(--accent);color:var(--on-accent);border-color:var(--accent)}
+
+.cert{border:2px solid var(--gold);border-radius:10px;padding:26px 20px;text-align:center;margin-top:14px;background:var(--bg);position:relative;animation:pop .6s var(--ease)}
+.cert::after{content:"";position:absolute;inset:6px;border:1px solid var(--gold);border-radius:6px;opacity:.5;pointer-events:none}
+.cert .seal{width:46px;height:46px;border-radius:50%;background:radial-gradient(circle at 30% 30%,var(--gold-bright),var(--gold));color:#0A2A28;display:grid;place-items:center;margin:0 auto 10px;font-size:20px;animation:spin 1.2s var(--ease) 1}
+.cert .cm{font-size:11px;letter-spacing:.3em;color:var(--gold);font-weight:700;margin-bottom:8px}
+.cert h2{font-size:22px;margin:6px 0}.cert h3{font-size:16px;margin:4px 0}
+.cert p{margin:3px 0;font-size:13px;color:var(--ink-soft)}
+.cert .code{font-family:ui-monospace,monospace;font-size:12px;margin-top:10px;color:var(--ink)}
+.cert .certbtns{margin-top:12px;display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
+
+.ayah{display:flex;gap:14px;padding:16px 4px;border-bottom:1px solid var(--line-soft);align-items:flex-start;transition:background .3s;border-radius:8px}
+.ayah.playing{background:color-mix(in srgb,var(--gold) 14%,transparent)}
+.ayah .num{min-width:32px;height:32px;border-radius:50%;border:1px solid var(--gold);color:var(--gold);display:grid;place-items:center;font-size:12px;font-weight:700;flex-shrink:0}
+.ayah .body{flex:1}.ar{font-family:Amiri,serif;font-size:27px;line-height:2.1;direction:rtl;text-align:right}
+.tr{font-size:13.5px;color:var(--ink-soft);margin-top:4px}.hide-tr .tr{display:none}
+.play{width:36px;height:36px;border-radius:50%;border:1px solid var(--line);background:var(--panel);cursor:pointer;color:var(--ink);flex-shrink:0;transition:.15s}
+.play:hover{background:var(--accent);color:var(--on-accent)}
+.repbtn{border:1px solid var(--line);background:var(--panel);color:var(--ink-soft);padding:6px 13px;border-radius:99px;font-size:12.5px;font-weight:600;cursor:pointer}
+.repbtn[aria-pressed="true"]{background:var(--accent);color:var(--on-accent);border-color:var(--accent)}
+.test-mode .ar{filter:blur(7px);cursor:pointer;transition:filter .3s;user-select:none}
+.test-mode .ayah.revealed .ar{filter:none}
+.test-mode .ayah:not(.revealed)::after{content:"Tap the ayah to reveal";position:absolute;font-size:11px;color:var(--ink-soft);margin-top:4px}
+
+table.tbl{width:100%;border-collapse:collapse;font-size:13.5px}
+.tbl th{text-align:left;font-size:11px;text-transform:uppercase;letter-spacing:.05em;color:var(--ink-soft);padding:8px 10px;border-bottom:1px solid var(--line)}
+.tbl td{padding:12px 10px;border-bottom:1px solid var(--line-soft);vertical-align:middle}
+.tbl tr{animation:rise .4s var(--ease) both;animation-delay:calc(var(--i,0)*40ms)}
+.tbl select{padding:6px 8px;font-size:12.5px;width:auto}
+.tblwrap{overflow-x:auto}
+
+.modal-bg{position:fixed;inset:0;background:rgba(6,16,14,.6);z-index:70;display:none;align-items:center;justify-content:center;padding:16px}
+.modal-bg.show{display:flex;animation:fade .2s}
+.modal{background:var(--panel);border-radius:12px;max-width:460px;width:100%;padding:24px;max-height:90vh;overflow-y:auto;animation:pop .3s var(--ease)}
+.modal h3{margin-bottom:14px}
+.toastwrap{position:fixed;bottom:22px;left:50%;transform:translateX(-50%);z-index:90;display:flex;flex-direction:column;gap:8px;align-items:center;pointer-events:none}
+.toast{background:var(--accent);color:var(--on-accent);padding:11px 20px;border-radius:99px;font-size:13px;font-weight:600;box-shadow:0 8px 24px rgba(0,0,0,.25);animation:rise .3s var(--ease)}
+.toast.err{background:var(--coral);color:#fff}
+.cf{position:fixed;left:50%;top:38%;width:8px;height:13px;border-radius:2px;z-index:99;pointer-events:none;animation:cf 1.4s var(--ease) forwards}
+@keyframes cf{to{transform:translate(var(--x),var(--y)) rotate(var(--r));opacity:0}}
+
+.authtabs{display:flex;border:1px solid var(--line);border-radius:99px;padding:3px;margin:18px 0}
+.authtabs button{flex:1;border:none;background:transparent;padding:9px;border-radius:99px;font-weight:700;font-size:13px;color:var(--ink-soft);cursor:pointer;transition:.25s var(--ease)}
+.authtabs button[aria-selected="true"]{background:var(--accent);color:var(--on-accent)}
+.rolepick{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
+.rcard{border:1.5px solid var(--line);border-radius:10px;padding:12px;cursor:pointer;transition:.25s var(--ease);display:block;text-align:left;background:var(--panel);width:100%}
+.rcard b{display:block;font-size:13.5px;color:var(--ink)}.rcard span{font-size:11.5px;color:var(--ink-soft);line-height:1.35;display:block;margin-top:2px}
+.rcard[aria-pressed="true"]{border-color:var(--gold);background:color-mix(in srgb,var(--gold) 10%,transparent);transform:translateY(-2px)}
+.collapse{max-height:0;overflow:hidden;transition:max-height .5s var(--ease),opacity .4s;opacity:0}.collapse.open{max-height:420px;opacity:1}
+.linkbtn{background:none;border:none;color:var(--ink-soft);font-size:12.5px;cursor:pointer;text-decoration:underline;padding:6px}
+.form{display:none}.form.on{display:block;animation:rise .35s var(--ease)}
+.skiplink{position:fixed;top:-50px;left:12px;z-index:100;background:var(--accent);color:var(--on-accent);padding:10px 16px;border-radius:8px;font-weight:700;font-size:13px;transition:top .2s var(--ease)}
+.skiplink:focus{top:12px}
+:focus-visible{outline:2.5px solid var(--gold);outline-offset:2px}
+.authwrap{max-width:420px;margin:10px auto 0;animation:rise .5s var(--ease)}
+.authhero{text-align:center;margin-bottom:20px}
+.authhero .mark{width:52px;height:52px;font-size:20px;margin:0 auto 12px}
+#printarea{display:none}
+@media print{body>*:not(#printarea){display:none!important}#printarea{display:block!important;padding:30px}.noprint{display:none!important}.cert{background:#fff}}
+</style>
+</head>
+<body>
+<a href="#main" class="skiplink">Skip to content</a>
+
+<header class="top">
+  <div class="brandrow">
+    <div class="brand" onclick="go(defaultView())"><div class="mark">﴾﴿</div><b>Noor Hifz</b></div>
+    <div class="rightrow"><span id="roleChip"></span><button class="iconbtn" id="themeBtn" onclick="cycleTheme()" title="Toggle color theme" aria-label="Toggle color theme">🌓</button><div id="userArea"></div></div>
+  </div>
+  <nav class="tabsbar" id="tabs" aria-label="Main navigation"></nav>
+</header>
+
+<main class="wrap" id="main" tabindex="-1"></main>
+<div class="modal-bg" id="modalBg" onclick="if(event.target===this)closeModal()"><div class="modal" id="modal" role="dialog" aria-modal="true"></div></div>
+<div id="printarea"></div><div class="toastwrap" id="toasts" aria-live="polite" role="status"></div>
+<div class="offline-bar" id="offlineBar" role="status">You're offline — saved data still works. Teacher logs will sync when you reconnect.</div>
+<div class="pwa-bar" id="installBar" role="dialog" aria-label="Install Noor Hifz"><b>Install Noor Hifz</b><p class="hint" id="installTxt" style="margin:4px 0 0">Add it to your home screen — opens like an app, works offline.</p><div class="row"><button class="btn sm" id="installBtn" onclick="doInstall()">Install</button><button class="btn sm ghost" onclick="dismissInstall()">Not now</button></div></div>
+
+<script src="/js/madrasah.js"></script>
+<script>
+const sb = supabase.createClient('https://jpnddovbivuihfkbsuiu.supabase.co','eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImpwbmRkb3ZiaXZ1aWhma2JzdWl1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTA1MzIzMzYsImV4cCI6MjEwNjEwODMzNn0.YbwJV_o79Lo6j9NuBB0zwKMECPVyE9YuGE1Rko0iTZg',{auth:{persistSession:false}});
+const $=s=>document.querySelector(s);
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const fmt=d=>new Date(d).toLocaleDateString(undefined,{year:'numeric',month:'short',day:'numeric'});
+const ERR={invalid_credentials:'Incorrect username or password',username_taken:'That username is already taken',username_invalid:'Username must be 3–20 letters, numbers or underscores',password_too_short:'Password must be at least 8 characters',scholar_not_found:'That scholar is no longer available',self_request:'You cannot send a request to yourself',portion_required:'Add the portion you want to recite',invalid_or_expired_session:'Your session expired — please sign in again',not_admin:'Admins only',not_scholar:'Approved scholars only',forbidden:'You are not allowed to do that',cannot_change_self:'You cannot change your own role',not_found:'Not found',account_suspended:'This account has been suspended. Contact an admin for details.',invalid_code:'That madrasah code is not valid',madrasah_inactive:'This madrasah is currently deactivated. Contact your madrasah admin.',gender_required:'Please choose your gender',plan_required:'Tell us what you plan to memorise',invalid_birth_year:'Enter a valid year of birth',student_not_found:'No student with that code in your madrasah',student_suspended:'That student account is suspended',bad_pages:'Enter pages between 0.25 and 604',bad_rating:'Choose a rating from 1 to 5',bad_date:'The date must be within the last 60 days',comment_too_long:'Comment is too long (max 1000 characters)',session_locked:'Logs can only be removed within 48 hours',not_allowed:'You do not have access to that',name_required:'Enter a name',madrasah_member:'Madrasah members\' roles are managed by the madrasah code they joined with'};
+
+let session=null; try{session=JSON.parse(localStorage.getItem('nh_session')||'null')}catch(e){}
+let plan=null, view=null, timers=[], surahs=null, prefill=null;
+const tk=()=>session.token;
+const role=()=>session?session.role:'guest';
+
+async function api(fn,args={}){
+  const {data,error}=await sb.rpc(fn,args);
+  if(error){
+    const m=Object.keys(ERR).find(k=>(error.message||'').includes(k));
+    if(m==='invalid_or_expired_session'&&session&&fn!=='app_whoami') signOut(true);
+    throw new Error(m?ERR[m]:'Something went wrong — please try again');
+  }
+  return data;
+}
+function toast(m,err){const t=document.createElement('div');t.className='toast'+(err?' err':'');t.textContent=m;$('#toasts').appendChild(t);setTimeout(()=>t.remove(),3000)}
+function burst(){const cols=['#D9B968','#B08A34','#2F7A46','#0F3D3A','#E8895C'];for(let i=0;i<30;i++){const e=document.createElement('i');e.className='cf';e.style.cssText=`--x:${(Math.random()-.5)*380}px;--y:${Math.random()*300-40}px;--r:${Math.random()*720}deg;background:${cols[i%5]};animation-delay:${Math.random()*.15}s`;document.body.appendChild(e);setTimeout(()=>e.remove(),1700)}}
+function openModal(h){$('#modal').innerHTML=h;$('#modalBg').classList.add('show');lastFocus=document.activeElement;const f=$('#modal').querySelector('input,select,textarea,button');if(f)f.focus();}
+function closeModal(){$('#modalBg').classList.remove('show');if(lastFocus)lastFocus.focus()}
+let lastFocus=null;
+document.addEventListener('keydown',e=>{
+  if(e.key==='Escape'&&$('#modalBg').classList.contains('show'))closeModal();
+  if(e.key==='Tab'&&$('#modalBg').classList.contains('show')){
+    const f=[...$('#modal').querySelectorAll('input,select,textarea,button,a')].filter(x=>!x.disabled);
+    if(!f.length)return;const first=f[0],last=f[f.length-1];
+    if(e.shiftKey&&document.activeElement===first){e.preventDefault();last.focus()}
+    else if(!e.shiftKey&&document.activeElement===last){e.preventDefault();first.focus()}
+  }
+});
+function copyText(t){navigator.clipboard.writeText(t).then(()=>toast('Link copied'),()=>toast('Could not copy',true))}
+const sk=n=>Array.from({length:n},()=>'<div class="skel"></div>').join('');
+const badge=s=>`<span class="badge b-${s}">${{pending:'Pending',review:'In review',corrections:'Corrections needed',certified:'Certified',approved:'Approved',rejected:'Rejected'}[s]||s}</span>`;
+const initials=n=>(n||'?').trim().split(/\s+/).slice(0,2).map(w=>w[0]).join('').toUpperCase();
+
+function animate(){
+  document.querySelectorAll('.field').forEach(f=>{const l=f.querySelector('label'),i=f.querySelector('input,select,textarea');if(l&&i){if(!i.id)i.id='f_'+Math.random().toString(36).slice(2,8);l.setAttribute('for',i.id)}});
+  document.querySelectorAll('.st').forEach((e,i)=>e.style.setProperty('--i',i));
+  document.querySelectorAll('.card,.tbl tr').forEach((e,i)=>e.style.setProperty('--i',i));
+  document.querySelectorAll('[data-count]').forEach(el=>{const to=+el.dataset.count,t0=performance.now();(function f(t){const k=Math.min(1,(t-t0)/900);el.textContent=Math.round(to*(1-Math.pow(1-k,3)))+(el.dataset.suffix||'');if(k<1)requestAnimationFrame(f)})(t0)});
+  requestAnimationFrame(()=>requestAnimationFrame(()=>{document.querySelectorAll('.ring').forEach(r=>r.style.setProperty('--pct',r.dataset.pct));document.querySelectorAll('.bar i').forEach(b=>b.style.width=b.dataset.w)}));
+}
+
+/* ---------- theme ---------- */
+function applyTheme(t){const r=document.documentElement;t==='system'?r.removeAttribute('data-theme'):r.setAttribute('data-theme',t);$('#themeBtn').textContent=t==='dark'?'🌙':t==='light'?'☀️':'🌓';localStorage.setItem('nh_theme',t)}
+function cycleTheme(){const c=localStorage.getItem('nh_theme')||'system';applyTheme(c==='system'?'light':c==='light'?'dark':'system')}
+
+/* ---------- navigation by role ---------- */
+const NAV={
+  guest:[['planner','Planner'],['quran','Quran'],['scholars','Scholars'],['verify','Verify certificate'],['signin','Sign in']],
+  user:[['home','Dashboard'],['planner','Planner'],['quran','Quran'],['scholars','Scholars'],['requests','My requests'],['profile','Profile']],
+  student:[['progress','My progress'],['home','Plan'],['quran','Quran'],['scholars','Scholars'],['requests','Certificates'],['profile','Profile']],
+  teacher:[['tdash','Log session'],['roster','Students'],['tsessions','My sessions'],['quran','Quran'],['profile','Profile']],
+  madrasah_admin:[['mdash','Dashboard'],['members','Members'],['analytics','Analytics'],['msessions','Sessions'],['profile','Profile']],
+  scholar:[['queue','Review queue'],['quran','Quran'],['profile','Profile']],
+  admin:[['overview','Overview'],['madrasahs','Madrasahs'],['analytics','Analytics'],['members','Members'],['msessions','Sessions'],['users','Accounts'],['allreq','Certifications'],['audit','Audit log'],['profile','Profile']]
+};
+function navItems(){const r=role();return r==='user'&&session&&session.madrasah_id?NAV.student:NAV[r]}
+const defaultView=()=>role()==='user'&&session&&session.madrasah_id?'progress':({guest:'planner',user:'home',scholar:'queue',admin:'overview',teacher:'tdash',madrasah_admin:'mdash'})[role()];
+function buildHeader(){
+  $('#tabs').innerHTML=navItems().map(n=>`<button data-v="${n[0]}" onclick="go('${n[0]}')" aria-current="false">${n[1]}</button>`).join('');
+  $('#roleChip').innerHTML=session?`<span class="chip">${esc(roleLabel(session.role))}</span>`:'';
+  $('#userArea').innerHTML=session?`<div class="userbox"><div class="avatar" aria-hidden="true">${esc(initials(session.display_name))}</div><span class="uname">${esc(session.display_name)}</span><button class="linkbtn" onclick="signOut()">Sign out</button></div>`:`<button class="btn sm" onclick="goAuth('signin')">Sign in</button>`;
+}
+function go(id){
+  if(id!=='verify'&&id!=='signin'&&!navItems().some(n=>n[0]===id)) id=defaultView();
+  view=id;timers.forEach(clearInterval);timers=[];stopAudio();
+  document.querySelectorAll('#tabs button').forEach(b=>{const on=b.dataset.v===id;b.classList.toggle('active',on);b.setAttribute('aria-current',on?'page':'false')});
+  const m=$('#main');m.classList.remove('enter');void m.offsetWidth;m.classList.add('enter');window.scrollTo({top:0});
+  m.focus({preventScroll:true});VIEWS[id]();
+}
+
+/* ---------- auth ---------- */
+let authTab='signin',signupRole='user',returnView=null;
+function goAuth(t){authTab=t||'signin';returnView=session?null:(NAV.guest.some(n=>n[0]===view)?view:'planner');go('signin')}
+function switchTab(w){authTab=w;const si=$('#tSignin'),su=$('#tSignup');if(!si)return;si.setAttribute('aria-selected',w==='signin');su.setAttribute('aria-selected',w==='signup');$('#fSignin').classList.toggle('on',w==='signin');$('#fSignup').classList.toggle('on',w==='signup');(w==='signin'?$('#siU'):$('#suN')).focus()}
+function pickRole(r){signupRole=r;document.querySelectorAll('.rcard').forEach(c=>c.setAttribute('aria-pressed',c.dataset.role===r));$('#schFields').classList.toggle('open',r==='scholar');$('#madBox').classList.toggle('open',r==='madrasah');if(r==='madrasah')setTimeout(()=>$('#suC').focus(),50)}
+function ferr(id,m){const e=$('#'+id);e.textContent=m||'';e.classList.toggle('show',!!m)}
+function busy(b,on,t){b.disabled=on;b.innerHTML=on?'<span class="spin"></span>':t}
+async function doSignin(ev){
+  ev.preventDefault();ferr('siE','');
+  const u=$('#siU').value.trim(),p=$('#siP').value;if(!u||!p){ferr('siE','Enter your username and password');return}
+  const b=$('#siB');busy(b,true);
+  try{session=await api('app_login',{p_username:u,p_password:p});await afterAuth('Welcome back, '+session.display_name)}
+  catch(e){ferr('siE',e.message)}
+  busy(b,false,'Sign in');
+}
+async function doSignup(ev){
+  ev.preventDefault();ferr('suUE','');ferr('suPE','');ferr('suCE','');
+  const u=$('#suU').value.trim(),p=$('#suP').value;let bad=false;
+  if(!/^[a-zA-Z0-9_]{3,20}$/.test(u)){ferr('suUE','3–20 characters: letters, numbers, underscore');bad=true}
+  if(p.length<8){ferr('suPE','At least 8 characters');bad=true}
+  let extra={};
+  if(signupRole==='madrasah'){try{extra=madSignupPayload()}catch(e){ferr('suCE',e.message);bad=true}}
+  if(bad)return;
+  const b=$('#suB2');busy(b,true);
+  try{
+    session=await api('app_signup',{p_username:u,p_password:p,p_display_name:$('#suN').value.trim(),p_role:signupRole==='scholar'?'scholar':'user',p_bio:$('#suB').value,p_ijazah:$('#suI').value,p_specialties:$('#suS').value.split(',').map(s=>s.trim()).filter(Boolean),...extra});
+    const msg=session.role==='admin'?'Account created — you are the Super Admin':session.role==='scholar'?'Application sent — an admin will review it':session.role==='teacher'?'Welcome, teacher — you can start logging sessions':session.role==='madrasah_admin'?'Welcome — your madrasah dashboard is ready':'Account created — welcome!';
+    await afterAuth(msg);burst();
+    if(session.student_code)setTimeout(showCodeModal,350);
+  }catch(e){ferr(/username/i.test(e.message)?'suUE':/code|madrasah/i.test(e.message)?'suCE':'suPE',e.message)}
+  busy(b,false,'Create account');
+}
+async function afterAuth(msg){
+  const local=(()=>{try{return JSON.parse(localStorage.getItem('nh_plan_local')||'null')}catch(e){return null}})();
+  localStorage.setItem('nh_session',JSON.stringify(session));
+  buildHeader();await loadPlan();
+  if(!plan&&local&&session.role==='user'){plan=local;savePlan()}
+  toast(msg);go(defaultView());
+}
+function signOut(silent){
+  if(session)sb.rpc('app_logout',{p_token:session.token}).then(()=>{},()=>{});
+  session=null;plan=null;localStorage.removeItem('nh_session');buildHeader();go('planner');if(!silent)toast('Signed out');
+}
+async function loadPlan(){
+  plan=null;
+  if(session&&session.role==='user'){try{plan=await api('get_plan',{p_token:tk()})}catch(e){}}
+  else if(!session){try{plan=JSON.parse(localStorage.getItem('nh_plan_local')||'null')}catch(e){}}
+}
+async function savePlan(){
+  if(session){if(session.role!=='user')return;try{await api('save_plan',{p_token:tk(),p_data:plan})}catch(e){toast(e.message,true)}}
+  else localStorage.setItem('nh_plan_local',JSON.stringify(plan));
+}
+
+/* ---------- planner logic ---------- */
+const keyOf=d=>d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
+function project(p){
+  const eff=p.pace*(1-p.revision),rem=Math.max(0,p.total-p.done),pct=Math.min(100,Math.round(p.done/p.total*100));
+  if(rem<=0)return{rem:0,pct:100,weeks:0,finish:null,eff,done:true};
+  const days=Math.ceil((rem/eff)/(p.daysWeek/7));
+  const base=p.start&&new Date(p.start)>new Date()?new Date(p.start):new Date();
+  return{rem,pct,weeks:Math.ceil(days/7),finish:new Date(base.getTime()+days*864e5),eff,done:false};
+}
+function streak(log){log=log||{};let n=0;const d=new Date();if(!(log[keyOf(d)]>0))d.setDate(d.getDate()-1);while(log[keyOf(d)]>0){n++;d.setDate(d.getDate()-1)}return n}
+const ring=(pct,label,s)=>`<div class="ring" data-pct="${pct}" style="--s:${s||140}px"><div><b>${pct}%</b><small>${label||'complete'}</small></div></div>`;
+
+let pStepN=1;
+function pStep(n){pStepN=n;[1,2,3].forEach(i=>{$('#ps'+i).classList.toggle('on',i===n);$('#pd'+i).classList.toggle('on',i<=n)})}
+function viewPlanner(){
+  const p=plan||{goalSel:'604',total:604,done:0,pace:1,daysWeek:6,revision:.3,start:keyOf(new Date())};
+  const opt=(v,t)=>`<option value="${v}" ${String(p.goalSel)===v?'selected':''}>${t}</option>`;
+  $('#main').innerHTML=`
+  ${session?'':`<div class="panel st" style="padding:14px 18px"><span class="hint" style="margin:0">Planning as a guest — <button class="linkbtn" onclick="goAuth('signup')">create an account</button> to save your plan, log daily progress and request certification.</span></div>`}
+  <div class="panel st"><div class="steps"><i id="pd1" class="on"></i><i id="pd2"></i><i id="pd3"></i></div>
+   <div class="stepcard on" id="ps1"><div class="slabel">Step 1 of 3</div><div class="sq">What are you memorizing?</div>
+    <div class="field"><label>Goal</label><select id="goal" onchange="$('#cw').style.display=this.value==='custom'?'block':'none'">${opt('604',"Whole Qur'an (604 pages)")}${opt('20','1 Juz (≈20 pages)')}${opt('100','5 Juz (≈100 pages)')}${opt('200','10 Juz (≈200 pages)')}${opt('custom','Custom page count')}</select></div>
+    <div class="field" id="cw" style="display:${p.goalSel==='custom'?'block':'none'}"><label>Custom pages</label><input id="cp" type="number" min="1" value="${p.total}"></div>
+    <div class="field"><label>Pages already memorized</label><input id="progress" type="number" min="0" value="${p.done}"></div>
+    <div class="row between"><span></span><button class="btn" onclick="pStep(2)">Next →</button></div></div>
+   <div class="stepcard" id="ps2"><div class="slabel">Step 2 of 3</div><div class="sq">What's your pace?</div>
+    <div class="grid g2"><div class="field"><label>New pages per day</label><input id="pace" type="number" min="0.1" step="0.1" value="${p.pace}"><div class="hint">0.25 relaxed · 1 steady · 2 intensive</div></div>
+    <div class="field"><label>Active days per week</label><input id="dw" type="number" min="1" max="7" value="${p.daysWeek}"></div></div>
+    <div class="field"><label>Revision (murāja'ah) load</label><select id="rev"><option value="0.1" ${p.revision==.1?'selected':''}>Light — 10% of time</option><option value="0.3" ${p.revision==.3?'selected':''}>Standard — 30% of time</option><option value="0.5" ${p.revision==.5?'selected':''}>Heavy — 50% of time</option></select></div>
+    <div class="field"><label>Start date</label><input id="sd" type="date" value="${p.start||keyOf(new Date())}"></div>
+    <div class="row between"><button class="btn ghost" onclick="pStep(1)">← Back</button><button class="btn" onclick="pCalc()">Calculate</button></div></div>
+   <div class="stepcard" id="ps3"><div class="slabel">Step 3 of 3</div><div class="sq">Your projection</div><div id="pRes"></div>
+    <div class="row between" style="margin-top:18px"><button class="btn ghost" onclick="pStep(2)">← Adjust</button>${session&&session.role==='user'?'<button class="btn" onclick="go(\'home\')">Open dashboard</button>':''}</div></div>
+  </div>`;
+  animate();pStep(1);if(plan)pCalc(true);
+}
+async function pCalc(quiet){
+  const sel=$('#goal').value,total=sel==='custom'?+$('#cp').value:+sel;
+  const np={goalSel:sel,total,done:Math.max(0,+$('#progress').value||0),pace:+$('#pace').value,daysWeek:Math.min(7,Math.max(1,+$('#dw').value||1)),revision:+$('#rev').value,start:$('#sd').value||keyOf(new Date()),log:(plan&&plan.log)||{}};
+  if(!(total>0)||!(np.pace>0)){toast('Enter a valid goal and pace',true);return}
+  plan=np;const pr=project(plan);
+  $('#pRes').innerHTML=`<div class="row" style="gap:26px">${ring(pr.pct)}<div style="flex:1;min-width:220px">
+    <div style="font-family:Lora,serif;font-size:26px;color:var(--heading)">${pr.done?'Already complete 🎉':pr.finish.toLocaleDateString(undefined,{year:'numeric',month:'long',day:'numeric'})}</div>
+    <div class="hint">Projected completion date</div>
+    <div class="grid g3" style="margin-top:14px"><div class="stat"><b>${pr.rem.toFixed(0)}</b><span>pages left</span></div><div class="stat"><b>${pr.weeks}</b><span>weeks</span></div><div class="stat"><b>${pr.eff.toFixed(2)}</b><span>new pages/day</span></div></div></div></div>
+    <div class="row" style="margin-top:20px;padding-top:16px;border-top:1px dashed var(--line)"><label class="switch"><input type="checkbox" id="rem" onchange="toggleRem()"><span class="slider"></span></label><div><b style="font-size:13.5px">Daily reminder</b><div class="hint" id="remS">Browser notification while this tab is open.</div></div></div>
+    <p class="hint" style="margin-top:14px">${session?(session.role==='user'?'Saved to your account.':'Sign in as a student to save plans.'):'Sign up to save this plan.'}</p>`;
+  animate();pStep(3);if(!quiet)savePlan();
+}
+let remT=null;
+function toggleRem(){
+  const on=$('#rem').checked,s=$('#remS');
+  if(!on){clearInterval(remT);s.textContent='Reminder off.';return}
+  if(!('Notification' in window)){s.textContent='Notifications unsupported in this browser.';$('#rem').checked=false;return}
+  Notification.requestPermission().then(p=>{if(p==='granted'){clearInterval(remT);remT=setInterval(()=>{try{new Notification('Noor Hifz',{body:"Time for today's memorization session."})}catch(e){}},864e5);s.textContent='On — fires every 24h while this tab is open.';toast('Reminder on')}else{$('#rem').checked=false;s.textContent='Permission denied in browser settings.'}});
+}
+
+/* ---------- prayer times (Aladhan API) ---------- */
+const prayerForm=m=>`<h2>Prayer times</h2><p class="hint">${m||'Plan memorization around your prayers — the hour after Fajr is best.'}</p>
+  <div class="grid g2" style="margin-top:12px"><div><label>City</label><input id="lc" placeholder="e.g. Lagos"></div><div><label>Country</label><input id="lk" placeholder="e.g. Nigeria"></div></div>
+  <div class="row" style="margin-top:12px"><button class="btn sm" onclick="setLoc()">Save location</button><button class="btn sm ghost" onclick="geoLoc()">📍 Use my location</button></div>`;
+function setLoc(){const c=$('#lc').value.trim(),k=$('#lk').value.trim();if(!c||!k){toast('Enter city and country',true);return}localStorage.setItem('nh_loc',JSON.stringify({city:c,country:k}));loadPrayer()}
+function geoLoc(){if(!navigator.geolocation){toast('Location unavailable',true);return}navigator.geolocation.getCurrentPosition(p=>{localStorage.setItem('nh_loc',JSON.stringify({lat:p.coords.latitude,lon:p.coords.longitude}));loadPrayer()},()=>toast('Location permission denied',true))}
+async function loadPrayer(){
+  const box=$('#prayerBox');if(!box)return;
+  let loc=null;try{loc=JSON.parse(localStorage.getItem('nh_loc')||'null')}catch(e){}
+  if(!loc){box.innerHTML=prayerForm();return}
+  box.innerHTML=sk(1);
+  try{
+    const url=loc.lat!=null?`https://api.aladhan.com/v1/timings/${Math.floor(Date.now()/1e3)}?latitude=${loc.lat}&longitude=${loc.lon}&method=2`:`https://api.aladhan.com/v1/timingsByCity?city=${encodeURIComponent(loc.city)}&country=${encodeURIComponent(loc.country)}&method=2`;
+    const j=await (await fetch(url)).json();if(j.code!==200)throw 0;
+    const d=j.data,names=['Fajr','Dhuhr','Asr','Maghrib','Isha'],tz=d.meta.timezone;
+    const secs=names.map(n=>{const[h,m]=d.timings[n].slice(0,5).split(':').map(Number);return h*3600+m*60});
+    box.innerHTML=`<div class="row between"><div><h2>Prayer times</h2><p class="hint">${esc(d.date.hijri.day)} ${esc(d.date.hijri.month.en)} ${esc(d.date.hijri.year)} AH · ${esc(loc.city||'your location')}</p></div><button class="btn sm ghost" onclick="localStorage.removeItem('nh_loc');loadPrayer()">Change</button></div>
+    <div class="grid g4" style="margin:14px 0 6px;grid-template-columns:repeat(5,1fr)">${names.map((n,i)=>`<div class="stat" id="pt${i}" style="padding:10px;text-align:center"><span>${n}</span><b style="font-size:16px">${d.timings[n].slice(0,5)}</b></div>`).join('')}</div>
+    <p class="hint" id="nextP"></p>`;
+    const tick=()=>{const[h,m,s]=new Date().toLocaleTimeString('en-GB',{timeZone:tz,hour12:false}).split(':').map(Number),now=h*3600+m*60+s;let i=secs.findIndex(t=>t>now),df;if(i<0){i=0;df=secs[0]+86400-now}else df=secs[i]-now;
+      const el=$('#nextP');if(!el)return;el.innerHTML=`Next: <b>${names[i]}</b> in ${Math.floor(df/3600)}h ${String(Math.floor(df%3600/60)).padStart(2,'0')}m ${String(df%60).padStart(2,'0')}s`;
+      names.forEach((_,k)=>{const c=$('#pt'+k);if(c)c.style.borderColor=k===i?'var(--gold)':''})};
+    tick();timers.push(setInterval(tick,1000));
+  }catch(e){box.innerHTML=prayerForm('Could not load prayer times — check the city and country.')}
+}
+
+/* ---------- Quran (Al Quran Cloud API) ---------- */
+async function getSurahs(){if(surahs)return surahs;const j=await (await fetch('https://api.alquran.cloud/v1/surah')).json();surahs=j.data;return surahs}
+const audio=new Audio();let cur=null,curIdx=-1,playAll=false,repeatN=1,repeatLeft=1;
+audio.onended=()=>{
+  if(repeatLeft>1){repeatLeft--;audio.currentTime=0;audio.play();return}
+  if(playAll&&curIdx+1<cur.ayahs.length)playAyah(curIdx+1,true);else stopAudio();
+};
+function stopAudio(){audio.pause();playAll=false;curIdx=-1;document.querySelectorAll('.ayah.playing').forEach(e=>e.classList.remove('playing'));document.querySelectorAll('.play').forEach(b=>{b.textContent='▶';b.setAttribute('aria-label','Play this ayah')})}
+function playAyah(i,all){
+  if(curIdx===i&&!audio.paused&&!all){stopAudio();return}
+  stopAudio();playAll=!!all;curIdx=i;repeatLeft=all?1:repeatN;audio.src=cur.ayahs[i].audio;audio.play().catch(()=>toast('Audio could not play',true));
+  const el=$('#ay'+i);if(el){el.classList.add('playing');const b=el.querySelector('.play');b.textContent='❚❚';b.setAttribute('aria-label','Pause');el.scrollIntoView({behavior:'smooth',block:'center'})}
+}
+function setRepeat(n){repeatN=n;document.querySelectorAll('.repbtn').forEach(b=>b.setAttribute('aria-pressed',+b.dataset.n===n))}
+function toggleTest(){$('#ayl').classList.toggle('test-mode');document.querySelectorAll('.ayah .ar').forEach(el=>el.onclick=()=>el.parentElement.parentElement.classList.toggle('revealed'))}
+async function viewQuran(){
+  $('#main').innerHTML=`<div class="panel st"><h2>Read &amp; listen</h2><p class="hint">Full text with Mishary Alafasy's recitation and the Sahih International translation.</p>
+   <div class="row" style="margin-top:14px"><select id="sur" style="flex:1;min-width:220px" onchange="loadSurah(this.value)"><option>Loading surahs…</option></select><label class="row" style="margin:0"><span class="switch"><input type="checkbox" id="trT" checked onchange="$('#ayl').classList.toggle('hide-tr',!this.checked)"><span class="slider"></span></span>Translation</label></div></div><div id="surBox">${sk(3)}</div>`;
+  animate();
+  try{const l=await getSurahs();$('#sur').innerHTML=l.map(s=>`<option value="${s.number}">${s.number}. ${esc(s.englishName)} — ${esc(s.name)}</option>`).join('');loadSurah(prefill&&prefill.surah?prefill.surah:1);if(prefill&&prefill.surah)$('#sur').value=prefill.surah;prefill=null}
+  catch(e){$('#surBox').innerHTML='<div class="panel empty">Could not reach the Quran API. Check your connection and retry.</div>'}
+}
+async function loadSurah(n){
+  stopAudio();$('#surBox').innerHTML=sk(4);
+  try{
+    const j=await (await fetch(`https://api.alquran.cloud/v1/surah/${n}/editions/ar.alafasy,en.sahih`)).json();const[a,t]=j.data;
+    cur={n:+n,name:a.englishName,ayahs:a.ayahs.map((x,i)=>({num:x.numberInSurah,text:x.text,audio:x.audio,tr:t.ayahs[i].text}))};
+    $('#surBox').innerHTML=`<div class="panel"><div class="row between"><div><h2 style="font-size:22px">${esc(a.englishName)} <span style="font-family:Amiri,serif" lang="ar">${esc(a.name)}</span></h2><p class="hint">${esc(a.englishNameTranslation)} · ${a.numberOfAyahs} ayahs · ${esc(a.revelationType)}</p></div>
+      <div class="row"><button class="btn sm" onclick="playAyah(0,true)">▶ Play all</button><button class="btn sm ghost" onclick="stopAudio()">Stop</button><button class="btn sm ghost" onclick="certifyThis()">🎓 Get certified</button></div></div>
+      <div class="row" style="margin-top:12px;padding-top:12px;border-top:1px dashed var(--line)"><span class="hint" style="margin:0">Repeat each ayah:</span><div class="chips" role="group" aria-label="Repeat count" style="margin:0">${[1,3,5].map(n=>`<button type="button" class="repbtn" data-n="${n}" aria-pressed="${repeatN===n}" onclick="setRepeat(${n})">${n===1?'Off':'×'+n}</button>`).join('')}</div>
+      <label class="row" style="margin:0 0 0 auto"><span class="switch"><input type="checkbox" id="testMode" onchange="toggleTest()"><span class="slider"></span></span>Test myself</label></div>
+      <div id="ayl" class="${$('#trT')&&!$('#trT').checked?'hide-tr':''}" style="margin-top:8px">${cur.ayahs.map((x,i)=>`<div class="ayah" id="ay${i}"><span class="num" aria-hidden="true">${x.num}</span><div class="body"><div class="ar" lang="ar">${esc(x.text)}</div><div class="tr">${esc(x.tr)}</div></div><button class="play" onclick="playAyah(${i})" aria-label="Play ayah ${x.num}">▶</button></div>`).join('')}</div></div>`;
+  }catch(e){$('#surBox').innerHTML='<div class="panel empty">Could not load this surah right now.</div>'}
+}
+function certifyThis(){if(!session){goAuth('signup');return}if(session.role!=='user'){toast('Only student accounts can request certification');return}prefill={surah:cur.n};go('scholars')}
+
+/* ---------- scholars directory ---------- */
+let scholarsData=[];
+async function viewScholars(){
+  $('#main').innerHTML=`<div class="panel st"><h2>Find a scholar</h2><p class="hint">Every scholar here has been reviewed and approved by an admin.</p><input id="sq" style="margin-top:14px" placeholder="Search by name, specialty or ijazah…" oninput="filterSch()"></div><div class="grid g2" id="sg">${sk(2)}</div>`;
+  try{scholarsData=await api('list_scholars');filterSch()}catch(e){$('#sg').innerHTML=`<div class="panel empty">${esc(e.message)}</div>`}
+}
+function filterSch(){
+  const q=($('#sq').value||'').toLowerCase(),l=scholarsData.filter(s=>(s.display_name+' '+(s.specialties||[]).join(' ')+' '+(s.ijazah||'')).toLowerCase().includes(q));
+  $('#sg').innerHTML=l.length?l.map((s,i)=>`<div class="scard st"><div class="row"><div class="avatar">${esc(initials(s.display_name))}</div><div><h3 style="font-size:16px">${esc(s.display_name)}</h3><div class="meta">${esc(s.ijazah||'Approved scholar')}</div></div></div>
+    ${s.bio?`<p class="hint" style="margin:2px 0">${esc(s.bio)}</p>`:''}<div>${(s.specialties||[]).map(t=>`<span class="tag">${esc(t)}</span>`).join('')}</div>
+    <div class="row between" style="margin-top:auto"><span class="meta">✓ ${s.certified} certified · ${s.active} in queue</span>${role()==='user'?`<button class="btn sm" onclick="reqModal('${s.id}')">Request session</button>`:role()==='guest'?`<button class="btn sm ghost" onclick="goAuth('signup')">Sign up to request</button>`:''}</div></div>`).join(''):
+    `<div class="panel empty" style="grid-column:1/-1"><span class="big">🎓</span>${scholarsData.length?'No scholars match your search.':'No approved scholars yet.'}${role()==='guest'&&!scholarsData.length?'<br><button class="btn sm" style="margin-top:10px" onclick="goAuth(\'signup\')">Join as a scholar</button>':''}</div>`;
+  animate();
+}
+async function reqModal(id){
+  const s=scholarsData.find(x=>x.id===id);if(!s)return;
+  openModal(`<h3>Request a session with ${esc(s.display_name)}</h3><div class="field"><label>Surah</label><select id="rs"><option value="">Loading…</option></select></div>
+   <div class="grid g2"><div class="field"><label>From ayah</label><input id="rf" type="number" min="1" placeholder="optional"></div><div class="field"><label>To ayah</label><input id="rt" type="number" min="1" placeholder="optional"></div></div>
+   <div class="field"><label>Note (optional)</label><input id="rn" placeholder="Preferred time, riwayah…"></div><div class="ferr" id="rE"></div>
+   <div class="row" style="justify-content:flex-end"><button class="btn ghost" onclick="closeModal()">Cancel</button><button class="btn" id="rB" onclick="sendReq('${id}')">Send request</button></div>`);
+  try{const l=await getSurahs();$('#rs').innerHTML=l.map(x=>`<option value="${x.number}" data-n="${esc(x.englishName)}">${x.number}. ${esc(x.englishName)}</option>`).join('');if(prefill&&prefill.surah){$('#rs').value=prefill.surah;prefill=null}}
+  catch(e){$('#rs').outerHTML='<input id="rs" placeholder="e.g. Al-Baqarah">'}
+}
+async function sendReq(id){
+  const sel=$('#rs');let portion=sel.tagName==='SELECT'?`Surah ${sel.selectedOptions[0].dataset.n} (${sel.value})`:sel.value.trim();
+  const f=$('#rf').value,t=$('#rt').value;portion+=f&&t?`, Ayah ${f}–${t}`:f?`, from Ayah ${f}`:', full surah';
+  const b=$('#rB');busy(b,true);
+  try{await api('submit_request',{p_token:tk(),p_scholar_id:id,p_portion:portion,p_note:$('#rn').value});closeModal();burst();toast('Request sent');go('requests')}
+  catch(e){ferr('rE',e.message);busy(b,false,'Send request')}
+}
+
+/* ---------- student: dashboard & requests ---------- */
+function tracker(st){const S=[['pending','Sent'],['review','In review'],['corrections','Corrections'],['certified','Certified']],i=S.findIndex(s=>s[0]===st);return`<div class="track">${S.map((s,k)=>`<div class="tk ${k<i?'done':''} ${k===i?'now':''}"><i></i>${s[1]}</div>`).join('')}</div>`}
+function certHTML(r){const link=location.origin+location.pathname+'?verify='+r.cert_code;return`<div class="cert" id="cert-${r.id}"><div class="seal">✦</div><div class="cm">CERTIFICATE OF SAMI'</div><p>This certifies that</p><h2>${esc(r.requester_name)}</h2><p>recited <b>${esc(r.portion)}</b> before</p><h3>${esc(r.scholar)}</h3><p>and was certified after review · ${fmt(r.updated_at)}</p><div class="code">Verification code: ${esc(r.cert_code)}</div><div class="certbtns noprint"><button class="btn sm ghost" onclick="printCert('${r.id}')">Print / save PDF</button><button class="btn sm ghost" onclick="copyText('${esc(link)}')">Copy verify link</button></div></div>`}
+function printCert(id){$('#printarea').innerHTML=$('#cert-'+id).outerHTML;window.print()}
+const reqCard=r=>`<div class="card"><div class="row between"><div><b>${esc(r.portion)}</b><div class="meta">with ${esc(r.scholar||'—')} · sent ${fmt(r.created_at)}</div></div>${badge(r.status)}</div>${tracker(r.status)}${r.note?`<div class="meta" style="margin-top:8px">Your note: ${esc(r.note)}</div>`:''}${r.feedback?`<div class="fb"><b>Scholar feedback:</b> ${esc(r.feedback)}</div>`:''}${r.status==='certified'?certHTML(r):''}</div>`;
+async function viewRequests(){
+  $('#main').innerHTML=`<div class="panel st"><h2>My requests</h2><p class="hint">Track each recitation from submission to certificate.</p></div><div id="rl">${sk(2)}</div>`;
+  try{const d=await api('list_my_requests',{p_token:tk()});$('#rl').innerHTML=d.length?d.map(reqCard).join(''):`<div class="panel empty"><span class="big">📜</span>No requests yet.<br><button class="btn sm" style="margin-top:10px" onclick="go('scholars')">Find a scholar</button></div>`;animate()}
+  catch(e){$('#rl').innerHTML=`<div class="panel empty">${esc(e.message)}</div>`}
+}
+async function viewHome(){
+  const h=new Date().getHours(),g=h<12?'Good morning':h<18?'Good afternoon':'Good evening';
+  let top;
+  if(plan){const p=project(plan),s=streak(plan.log),t=(plan.log||{})[keyOf(new Date())]||0;
+    top=`<div class="panel st"><div class="row" style="gap:26px">${ring(p.pct)}<div style="flex:1;min-width:230px"><h2 style="font-size:22px">${g}, ${esc(session.display_name)}</h2>
+     <p class="hint">${p.done?'You have completed your goal — masha’Allah!':`On track to finish <b>${p.finish.toLocaleDateString(undefined,{year:'numeric',month:'long',day:'numeric'})}</b>`}</p>
+     <div class="grid g3" style="margin-top:14px"><div class="stat"><b data-count="${Math.round(plan.done)}">0</b><span>pages memorized</span></div><div class="stat"><b data-count="${Math.round(p.rem)}">0</b><span>pages left</span></div><div class="stat"><b class="streak"><span class="flame">🔥</span><span data-count="${s}">0</span></b><span>day streak</span></div></div></div></div>
+     <div class="row" style="margin-top:18px;padding-top:16px;border-top:1px dashed var(--line)"><div style="flex:1;min-width:160px"><label>Log today's new pages ${t?`(already ${t})`:''}</label><input id="lg" type="number" min="0.25" step="0.25" value="${plan.pace}"></div><button class="btn" style="align-self:flex-end" onclick="logPages()">＋ Log progress</button><button class="btn ghost" style="align-self:flex-end" onclick="go('planner')">Edit plan</button></div></div>`}
+  else top=`<div class="panel st empty"><span class="big">🌙</span><h2 style="margin-bottom:6px">${g}, ${esc(session.display_name)}</h2>Create your memorization plan to see your finish date, streak and progress here.<br><button class="btn" style="margin-top:14px" onclick="go('planner')">Create my plan</button></div>`;
+  $('#main').innerHTML=top+`<div class="panel st">${juzGrid()}</div><div class="panel st" id="prayerBox">${sk(1)}</div><div class="panel st"><div class="row between"><h2>Recent requests</h2><button class="btn sm ghost" onclick="go('requests')">View all</button></div><div id="hr">${sk(1)}</div></div>`;
+  animate();loadPrayer();
+  try{const d=await api('list_my_requests',{p_token:tk()});$('#hr').innerHTML=d.length?d.slice(0,3).map(r=>`<div class="row between" style="padding:10px 0;border-bottom:1px solid var(--line-soft)"><div><b style="font-size:13.5px">${esc(r.portion)}</b><div class="meta">with ${esc(r.scholar||'—')}</div></div>${badge(r.status)}</div>`).join(''):'<p class="hint">Nothing yet — <button class="linkbtn" onclick="go(\'scholars\')">request your first session</button>.</p>'}catch(e){}
+}
+function juzGrid(){
+  const pagesPerJuz=plan?plan.total/30:20.1,done=plan?plan.done:0,certJuz=new Set();
+  return `<h2>Juz progress</h2><p class="hint">Each square is one juz of the mushaf, filled as you log pages.</p>
+  <div class="grid" style="grid-template-columns:repeat(10,1fr);gap:8px;margin-top:14px" role="list" aria-label="Progress by juz">${Array.from({length:30},(_,i)=>{
+    const start=i*pagesPerJuz,pct=Math.max(0,Math.min(1,(done-start)/pagesPerJuz)),state=pct>=1?'certified':pct>0?'learning':'none';
+    const bg=state==='certified'?'var(--c-certified)':state==='learning'?'color-mix(in srgb,var(--gold) '+Math.round(pct*100)+'%,var(--line-soft))':'var(--line-soft)';
+    return `<div role="listitem" title="Juz ${i+1} — ${state==='certified'?'memorized':state==='learning'?Math.round(pct*100)+'% underway':'not started'}" style="aspect-ratio:1;border-radius:6px;background:${bg};display:grid;place-items:center;font-size:10.5px;font-weight:700;color:${state==='none'?'var(--ink-soft)':'#fff'};transition:background .6s var(--ease)">${i+1}</div>`;
+  }).join('')}</div>`;
+}
+async function logPages(){
+  const n=+$('#lg').value;if(!(n>0)){toast('Enter pages memorized',true);return}
+  plan.done=Math.min(plan.total,plan.done+n);plan.log=plan.log||{};const k=keyOf(new Date());plan.log[k]=(plan.log[k]||0)+n;
+  await savePlan();burst();toast('Logged '+n+' page'+(n===1?'':'s')+' — keep going!');viewHome();
+}
+
+/* ---------- scholar queue ---------- */
+let qData=[],qF='all';
+async function viewQueue(){
+  if(session.role==='scholar'&&session.scholar_status!=='approved'){
+    $('#main').innerHTML=`<div class="panel st empty"><span class="big">⏳</span><h2 style="margin-bottom:6px">${session.scholar_status==='rejected'?'Application not approved':'Application under review'}</h2>${session.scholar_status==='rejected'?'An admin did not approve this scholar application. Contact the site admin for details.':'An admin is reviewing your scholar application. You will be listed in the directory and can start receiving requests as soon as you are approved.'}<br><button class="btn sm ghost" style="margin-top:12px" onclick="refreshMe()">Check status</button></div>`;return}
+  $('#main').innerHTML=`<div id="qs">${sk(1)}</div><div id="ql">${sk(2)}</div>`;
+  try{qData=await api('scholar_list_requests',{p_token:tk()});renderQueue()}catch(e){$('#ql').innerHTML=`<div class="panel empty">${esc(e.message)}</div>`}
+}
+async function refreshMe(){try{const u=await api('app_whoami',{p_token:tk()});session={...session,...u,token:tk()};localStorage.setItem('nh_session',JSON.stringify(session));buildHeader();go('queue');if(session.scholar_status==='approved')burst()}catch(e){toast(e.message,true)}}
+function renderQueue(){
+  const c={pending:0,review:0,corrections:0,certified:0};qData.forEach(r=>c[r.status]++);
+  $('#qs').innerHTML=`<div class="grid g4 st">${[['pending','Awaiting you'],['review','In review'],['corrections','Awaiting corrections'],['certified','Certified']].map(([k,l])=>`<div class="stat"><b data-count="${c[k]}">0</b><span>${l}</span></div>`).join('')}</div><div style="height:16px"></div>`;
+  const F=[['all','All'],['pending','Pending'],['review','In review'],['corrections','Corrections'],['certified','Certified']];
+  const l=qData.filter(r=>qF==='all'||r.status===qF);
+  $('#ql').innerHTML=`<div class="chips">${F.map(f=>`<button class="${qF===f[0]?'on':''}" onclick="qF='${f[0]}';renderQueue()">${f[1]}</button>`).join('')}</div>`+(l.length?l.map(r=>`<div class="card"><div class="row between"><div><b>${esc(r.portion)}</b><div class="meta">${esc(r.requester_name)} · ${fmt(r.created_at)}${r.note?' · '+esc(r.note):''}</div></div>${badge(r.status)}</div>
+    ${r.status==='certified'?`<div class="meta" style="margin-top:8px">Certificate code: <b>${esc(r.cert_code)}</b></div>${r.feedback?`<div class="fb">${esc(r.feedback)}</div>`:''}`:`<textarea id="fb-${r.id}" style="margin-top:12px" placeholder="Feedback or corrections for the reader…">${esc(r.feedback||'')}</textarea><div class="row" style="margin-top:10px">${r.status!=='review'?`<button class="btn sm ghost" onclick="qAct('${r.id}','review')">Start review</button>`:''}<button class="btn sm ghost" onclick="qAct('${r.id}','corrections')">Needs corrections</button><button class="btn sm" onclick="qAct('${r.id}','certified')">✓ Certify</button></div>`}</div>`).join(''):'<div class="panel empty"><span class="big">📭</span>Nothing here yet.</div>');
+  animate();
+}
+async function qAct(id,st){
+  const fb=$('#fb-'+id);
+  if(st==='corrections'&&!(fb&&fb.value.trim())){toast('Add feedback so the reader knows what to fix',true);return}
+  try{await api('scholar_update_request',{p_token:tk(),p_request_id:id,p_status:st,p_feedback:fb?fb.value:null});if(st==='certified'){burst();toast('Certificate issued')}else toast('Updated');qData=await api('scholar_list_requests',{p_token:tk()});renderQueue()}
+  catch(e){toast(e.message,true)}
+}
+
+/* ---------- admin ---------- */
+function sparkline(points){
+  const vals=points.map(p=>p.c),max=Math.max(1,...vals),w=280,h=52,step=w/(points.length-1);
+  const path=vals.map((v,i)=>`${i===0?'M':'L'}${(i*step).toFixed(1)},${(h-(v/max)*h*.85-3).toFixed(1)}`).join(' ');
+  const area=path+` L${w},${h} L0,${h} Z`;
+  return `<svg viewBox="0 0 ${w} ${h}" width="100%" height="${h}" preserveAspectRatio="none" role="img" aria-label="New signups over the last 14 days" style="overflow:visible">
+    <path d="${area}" fill="color-mix(in srgb,var(--gold) 18%,transparent)" stroke="none"/>
+    <path d="${path}" fill="none" stroke="var(--gold)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="sparkpath"/>
+    ${vals.map((v,i)=>v>0?`<circle cx="${(i*step).toFixed(1)}" cy="${(h-(v/max)*h*.85-3).toFixed(1)}" r="2.6" fill="var(--gold)"/>`:'').join('')}</svg>`;
+}
+async function viewOverview(){
+  $('#main').innerHTML=`<div id="as">${sk(2)}</div>`;
+  try{
+    const [s,u,trend]=await Promise.all([api('admin_stats',{p_token:tk()}),api('admin_list_users',{p_token:tk()}),api('admin_signups_trend',{p_token:tk()})]);
+    const r=s.requests||{},tot=Object.values(r).reduce((a,b)=>a+b,0)||1,pend=u.filter(x=>x.role==='scholar'&&x.scholar_status==='pending'),susp=u.filter(x=>x.suspended).length;
+    $('#main').innerHTML=`<div class="grid g4 st">${[['users','👥 Total users'],['students','📖 Students'],['scholars','🎓 Approved scholars'],['pending_scholars','⏳ Applications']].map(([k,l])=>`<div class="stat"><b data-count="${s[k]}">0</b><span>${l}</span></div>`).join('')}</div>
+    <div class="grid g2" style="margin-top:16px">
+    <div class="panel st"><h2>Certification pipeline</h2><div style="margin-top:14px">${[['pending','Pending'],['review','In review'],['corrections','Corrections'],['certified','Certified']].map(([k,l])=>`<div style="margin-bottom:12px"><div class="row between meta"><span>${l}</span><b>${r[k]||0}</b></div><div class="bar"><i data-w="${Math.round((r[k]||0)/tot*100)}%"></i></div></div>`).join('')}</div></div>
+    <div class="panel st"><div class="row between"><h2>New signups</h2><span class="meta">last 14 days</span></div><div style="margin-top:16px">${sparkline(trend)}</div>${susp?`<p class="hint" style="margin-top:10px">⚠ ${susp} account${susp===1?'':'s'} currently suspended</p>`:''}</div></div>
+    <div class="panel st"><h2>Scholar applications</h2>${pend.length?pend.map((x,i)=>`<div class="row between" style="padding:12px 0;border-bottom:1px solid var(--line-soft)" style="--i:${i}"><div><b>${esc(x.display_name)}</b> <span class="meta">@${esc(x.username)}</span><div class="meta">${esc(x.ijazah||'No ijazah listed')}</div></div><div class="row"><button class="btn sm" onclick="setSch('${x.id}','approved')">Approve</button><button class="btn sm ghost" onclick="setSch('${x.id}','rejected')">Reject</button></div></div>`).join(''):'<p class="hint">No applications waiting.</p>'}</div>`;
+    animate();
+  }catch(e){$('#main').innerHTML=`<div class="panel empty">${esc(e.message)}</div>`}
+}
+async function setSch(id,st){try{await api('admin_set_scholar_status',{p_token:tk(),p_user_id:id,p_status:st});toast(st==='approved'?'Scholar approved':'Application rejected');({users:viewUsers,overview:viewOverview})[view]?.()}catch(e){toast(e.message,true)}}
+
+let usersData=[],uFilter='all';
+async function viewUsers(){
+  $('#main').innerHTML=`<div class="panel st"><h2>Users &amp; roles</h2><p class="hint">Promote, approve, change roles, or suspend an account.</p>
+   <input id="uq" style="margin-top:14px" placeholder="Search by name or username…" oninput="renderUsers()"></div><div class="panel"><div class="tblwrap" id="ut">${sk(3)}</div></div>`;
+  try{usersData=await api('admin_list_users',{p_token:tk()});renderUsers()}catch(e){$('#ut').innerHTML=esc(e.message)}
+}
+function renderUsers(){
+  const F=[['all','All'],['user','Students'],['scholar','Scholars'],['admin','Admins'],['suspended','Suspended']];
+  const q=($('#uq').value||'').toLowerCase();
+  const l=usersData.filter(u=>(u.display_name+u.username+u.role).toLowerCase().includes(q)).filter(u=>uFilter==='all'||(uFilter==='suspended'?u.suspended:u.role===uFilter));
+  $('#ut').innerHTML=`<div class="chips">${F.map(f=>`<button class="${uFilter===f[0]?'on':''}" onclick="uFilter='${f[0]}';renderUsers()">${f[1]}</button>`).join('')}</div>
+   <table class="tbl"><tr><th>User</th><th>Role</th><th>Status</th><th>Joined</th><th>Actions</th></tr>${l.length?l.map(u=>`<tr style="${u.suspended?'opacity:.6':''}"><td><b>${esc(u.display_name)}</b><div class="meta">@${esc(u.username)}</div></td>
+    <td><select aria-label="Role for ${esc(u.display_name)}" ${u.id===session.id?'disabled':''} onchange="setRole('${u.id}',this.value)">${['user','scholar','admin'].map(r=>`<option value="${r}" ${u.role===r?'selected':''}>${r==='user'?'student':r}</option>`).join('')}</select></td>
+    <td>${u.suspended?`<span class="badge b-corrections">Suspended</span>`:u.role==='scholar'?badge(u.scholar_status):'<span class="meta">Active</span>'}</td><td class="meta">${fmt(u.created_at)}</td>
+    <td><div class="row">${u.role==='scholar'&&u.scholar_status!=='approved'&&!u.suspended?`<button class="btn sm" onclick="setSch('${u.id}','approved')">Approve</button>`:u.role==='scholar'&&!u.suspended?`<button class="btn sm ghost" onclick="setSch('${u.id}','rejected')">Revoke</button>`:''}
+    ${u.id===session.id?'':u.suspended?`<button class="btn sm ghost" onclick="setSuspend('${u.id}',false)">Reinstate</button>`:`<button class="btn sm danger" onclick="suspendPrompt('${u.id}','${esc(u.display_name).replace(/'/g,"\\'")}')">Suspend</button>`}</div></td></tr>`).join(''):'<tr><td colspan="5"><div class="empty">No users match.</div></td></tr>'}</table>`;
+  animate();
+}
+async function setRole(id,r){try{await api('admin_set_role',{p_token:tk(),p_user_id:id,p_role:r});toast('Role updated');viewUsers()}catch(e){toast(e.message,true);viewUsers()}}
+function suspendPrompt(id,name){
+  openModal(`<h3>Suspend ${esc(name)}?</h3><p class="hint">They'll be signed out everywhere and unable to sign in until reinstated.</p><div class="field"><label>Reason (optional, visible to other admins)</label><input id="susR" placeholder="e.g. reported inappropriate feedback"></div><div class="row" style="justify-content:flex-end"><button class="btn ghost" onclick="closeModal()">Cancel</button><button class="btn danger" onclick="setSuspend('${id}',true)">Suspend account</button></div>`);
+}
+async function setSuspend(id,on){try{await api('admin_set_suspended',{p_token:tk(),p_user_id:id,p_suspended:on,p_reason:$('#susR')?$('#susR').value:null});closeModal();toast(on?'Account suspended':'Account reinstated');viewUsers()}catch(e){toast(e.message,true)}}
+
+let reqData=[],rFilter='all';
+async function viewAllReq(){
+  $('#main').innerHTML=`<div class="panel st"><h2>All requests</h2><p class="hint">Every certification request on the platform. Admins can force a status or remove spam.</p>
+   <input id="arq" style="margin-top:14px" placeholder="Search by student, scholar or portion…" oninput="renderAllReq()"></div><div id="ar">${sk(3)}</div>`;
+  try{reqData=await api('admin_list_requests',{p_token:tk()});renderAllReq()}catch(e){$('#ar').innerHTML=`<div class="panel empty">${esc(e.message)}</div>`}
+}
+function renderAllReq(){
+  const F=[['all','All'],['pending','Pending'],['review','In review'],['corrections','Corrections'],['certified','Certified']];
+  const q=($('#arq').value||'').toLowerCase();
+  const l=reqData.filter(r=>rFilter==='all'||r.status===rFilter).filter(r=>(r.requester_name+r.scholar+r.portion).toLowerCase().includes(q));
+  $('#ar').innerHTML=`<div class="chips">${F.map(f=>`<button class="${rFilter===f[0]?'on':''}" onclick="rFilter='${f[0]}';renderAllReq()">${f[1]}</button>`).join('')}</div>`+
+    (l.length?l.map(r=>`<div class="card"><div class="row between"><div><b>${esc(r.portion)}</b><div class="meta">${esc(r.requester_name)} → ${esc(r.scholar||'—')} · ${fmt(r.created_at)}</div></div>${badge(r.status)}</div>
+    ${r.cert_code?`<div class="meta" style="margin-top:6px">Certificate: <b>${esc(r.cert_code)}</b></div>`:''}
+    <div class="row" style="margin-top:10px"><select aria-label="Force status" id="fs-${r.id}">${['pending','review','corrections','certified'].map(s=>`<option value="${s}" ${r.status===s?'selected':''}>${badgeLabel(s)}</option>`).join('')}</select><button class="btn sm ghost" onclick="forceStatus('${r.id}')">Apply</button><button class="btn sm danger" onclick="delReqPrompt('${r.id}')">Delete</button></div></div>`).join(''):'<div class="panel empty"><span class="big">📭</span>No requests match.</div>');
+  animate();
+}
+async function forceStatus(id){try{await api('admin_force_status',{p_token:tk(),p_request_id:id,p_status:$('#fs-'+id).value});toast('Status updated');reqData=await api('admin_list_requests',{p_token:tk()});renderAllReq()}catch(e){toast(e.message,true)}}
+function delReqPrompt(id){openModal(`<h3>Delete this request?</h3><p class="hint">This permanently removes it, including any certificate. This cannot be undone.</p><div class="row" style="justify-content:flex-end"><button class="btn ghost" onclick="closeModal()">Cancel</button><button class="btn danger" onclick="delReq('${id}')">Delete permanently</button></div>`)}
+async function delReq(id){try{await api('admin_delete_request',{p_token:tk(),p_request_id:id});closeModal();toast('Request deleted');reqData=await api('admin_list_requests',{p_token:tk()});renderAllReq()}catch(e){toast(e.message,true)}}
+
+async function viewAudit(){
+  $('#main').innerHTML=`<div class="panel st"><h2>Audit log</h2><p class="hint">Recent admin actions — role changes, suspensions, scholar approvals, manual status overrides.</p></div><div id="au">${sk(3)}</div>`;
+  const L={role_change:'🔁 Role changed',suspend:'⛔ Suspended',reinstate:'✅ Reinstated',scholar_status:'🎓 Scholar status set',force_status:'⚙️ Status forced',delete_request:'🗑️ Request deleted',madrasah_create:'🕌 Madrasah created',madrasah_update:'🕌 Madrasah edited',madrasah_deactivate:'⏸ Madrasah deactivated',madrasah_activate:'▶ Madrasah reactivated',code_regen:'🔑 Join code regenerated',delete_session:'🗑️ Session deleted'};
+  try{const d=await api('admin_list_audit',{p_token:tk(),p_limit:80});
+    $('#au').innerHTML=d.length?`<div class="panel"><div class="tblwrap"><table class="tbl"><tr><th>Action</th><th>By</th><th>Target</th><th>Detail</th><th>When</th></tr>${d.map(l=>`<tr><td>${L[l.action]||esc(l.action)}</td><td>${esc(l.actor||'—')}</td><td>${esc(l.target||'—')}</td><td class="meta">${esc(l.detail||'')}</td><td class="meta">${fmt(l.created_at)}</td></tr>`).join('')}</table></div></div>`:'<div class="panel empty"><span class="big">🗒️</span>No admin actions logged yet.</div>';
+    animate();
+  }catch(e){$('#au').innerHTML=`<div class="panel empty">${esc(e.message)}</div>`}
+}
+
+/* ---------- verify ---------- */
+function viewVerify(){
+  $('#main').innerHTML=`<div class="panel st"><h2>Verify a certificate</h2><p class="hint">Enter the verification code printed on a Noor Hifz certificate to confirm it is genuine.</p>
+   <div class="row" style="margin-top:14px"><input id="vc" style="flex:1;min-width:200px;text-transform:uppercase" placeholder="e.g. 3F9A1C7B2D" onkeydown="if(event.key==='Enter')runVerify()"><button class="btn" onclick="runVerify()">Verify</button></div></div><div id="vr"></div>`;animate();
+}
+async function runVerify(){
+  const c=$('#vc').value.trim();if(!c)return;$('#vr').innerHTML=sk(1);
+  try{const r=await api('verify_certificate',{p_code:c});
+    $('#vr').innerHTML=r.valid?`<div class="panel" style="border-color:var(--c-certified);animation:pop .4s var(--ease)"><div class="row"><span style="font-size:30px">✅</span><div><h2 style="color:var(--c-certified)">Valid certificate</h2><p class="hint" style="margin:0">Issued ${fmt(r.issued)}</p></div></div><div class="grid g3" style="margin-top:14px"><div class="stat"><span>Awarded to</span><b style="font-size:17px">${esc(r.holder)}</b></div><div class="stat"><span>Portion</span><b style="font-size:17px">${esc(r.portion)}</b></div><div class="stat"><span>Certified by</span><b style="font-size:17px">${esc(r.scholar)}</b></div></div></div>`:`<div class="panel" style="border-color:var(--coral);animation:shake .4s"><div class="row"><span style="font-size:30px">❌</span><div><h2 style="color:var(--coral)">Not found</h2><p class="hint" style="margin:0">No certificate matches that code. Check for typos.</p></div></div></div>`}
+  catch(e){$('#vr').innerHTML=`<div class="panel empty">${esc(e.message)}</div>`}
+}
+
+/* ---------- profile ---------- */
+function viewProfile(){
+  const s=session,sch=s.role==='scholar';
+  $('#main').innerHTML=`<div class="panel st"><div class="row"><div class="avatar" style="width:52px;height:52px;font-size:19px">${esc(initials(s.display_name))}</div><div><h2 style="margin:0">${esc(s.display_name)}</h2><div class="meta">@${esc(s.username)} · ${esc(roleLabel(s.role))}${sch?' · '+badge(s.scholar_status||'pending'):''}</div></div></div></div>
+  <div class="panel st"><h2>Profile</h2><div class="field" style="margin-top:12px"><label>Display name</label><input id="pn" value="${esc(s.display_name)}"></div>
+   ${sch?`<div class="field"><label>Ijazah / qualification</label><input id="pi" value="${esc(s.ijazah||'')}"></div><div class="field"><label>Specialties (comma separated)</label><input id="ps" value="${esc((s.specialties||[]).join(', '))}"></div><div class="field"><label>Bio</label><textarea id="pb">${esc(s.bio||'')}</textarea></div>`:''}
+   <button class="btn" onclick="saveProfile()">Save profile</button></div>
+  <div class="panel st"><h2>Change password</h2><div class="grid g2" style="margin-top:12px"><div class="field"><label>Current password</label><input id="op" type="password" autocomplete="current-password"></div><div class="field"><label>New password</label><input id="np" type="password" autocomplete="new-password"></div></div><div class="ferr" id="pE"></div><button class="btn" onclick="changePw()">Update password</button><p class="hint">Changing your password signs out your other devices.</p></div>
+  ${profileExtra()}
+  <div class="panel st"><h2>Install app</h2><p class="hint" id="instHint">Add Noor Hifz to your home screen — it opens full-screen like a native app and keeps working offline.</p><div style="margin-top:12px"><button class="btn" id="instBtn2" onclick="doInstall()" style="display:none">Install Noor Hifz</button><p class="hint" id="instManual" style="margin:0"></p></div></div>
+  <div class="panel st"><button class="btn ghost" onclick="signOut()">Sign out</button></div>`;animate();refreshInstallUI();
+}
+async function saveProfile(){
+  try{const u=await api('update_profile',{p_token:tk(),p_display_name:$('#pn').value,p_bio:$('#pb')?$('#pb').value:null,p_ijazah:$('#pi')?$('#pi').value:null,p_specialties:$('#ps')?$('#ps').value.split(',').map(x=>x.trim()).filter(Boolean):[]});
+    session={...session,...u,token:tk()};localStorage.setItem('nh_session',JSON.stringify(session));buildHeader();toast('Profile saved');viewProfile()}catch(e){toast(e.message,true)}
+}
+async function changePw(){
+  ferr('pE','');try{await api('app_change_password',{p_token:tk(),p_old:$('#op').value,p_new:$('#np').value});$('#op').value='';$('#np').value='';toast('Password updated')}catch(e){ferr('pE',e.message)}
+}
+
+/* ---------- sign in / sign up page ---------- */
+function viewAuth(){
+  if(session){go(defaultView());return}
+  $('#main').innerHTML=`<div class="authwrap st">
+    <div class="authhero"><div class="mark" aria-hidden="true" style="margin:0 auto 12px">﴾﴿</div><h1 style="font-size:24px">Welcome to Noor Hifz</h1><p class="hint">Sign in or create your account to save your plan and request certification.</p></div>
+    <div class="panel">
+      <div class="authtabs" role="tablist" aria-label="Sign in or sign up">
+        <button id="tSignin" role="tab" aria-selected="${authTab==='signin'}" aria-controls="fSignin" onclick="switchTab('signin')">Sign in</button>
+        <button id="tSignup" role="tab" aria-selected="${authTab==='signup'}" aria-controls="fSignup" onclick="switchTab('signup')">Sign up</button>
+      </div>
+      <form class="form ${authTab==='signin'?'on':''}" id="fSignin" onsubmit="doSignin(event)" novalidate>
+        <div class="field"><label>Username</label><input id="siU" autocomplete="username" placeholder="yourname" autocapitalize="off"></div>
+        <div class="field"><label>Password</label><input id="siP" type="password" autocomplete="current-password" placeholder="••••••••"><div class="ferr" id="siE" role="alert"></div></div>
+        <button class="btn" style="width:100%" id="siB">Sign in</button>
+      </form>
+      <form class="form ${authTab==='signup'?'on':''}" id="fSignup" onsubmit="doSignup(event)" novalidate>
+        <label id="roleLbl">I am joining as</label>
+        <div class="rolepick" role="group" aria-labelledby="roleLbl">
+          <button type="button" class="rcard" data-role="user" aria-pressed="${signupRole==='user'}" onclick="pickRole('user')"><b>📖 Student</b><span>Plan, memorize and request certification</span></button>
+          <button type="button" class="rcard" data-role="scholar" aria-pressed="${signupRole==='scholar'}" onclick="pickRole('scholar')"><b>🎓 Scholar</b><span>Listen, correct and certify readers</span></button>
+          <button type="button" class="rcard" data-role="madrasah" aria-pressed="${signupRole==='madrasah'}" onclick="pickRole('madrasah')" style="grid-column:1/-1"><b>🏫 I have a madrasah code</b><span>Students, teachers and madrasah admins join with the code their madrasah gave them</span></button>
+        </div>
+        <div class="reveal ${signupRole==='madrasah'?'open':''}" id="madBox">
+          <div class="field"><label for="suC">Madrasah code</label><input id="suC" class="codeinput" maxlength="8" autocomplete="off" autocapitalize="characters" spellcheck="false" placeholder="S4K9XQ2M" oninput="madPeek(this)"><div id="peekBox"></div><div class="ferr" id="suCE" role="alert"></div></div>
+          <div id="madFields"></div>
+        </div>
+        <div class="field"><label>Display name</label><input id="suN" placeholder="Your name"></div>
+        <div class="field"><label>Username</label><input id="suU" autocomplete="username" autocapitalize="off" placeholder="a–z, 0–9, underscore"><div class="ferr" id="suUE" role="alert"></div></div>
+        <div class="field"><label>Password</label><input id="suP" type="password" autocomplete="new-password" placeholder="At least 8 characters"><div class="ferr" id="suPE" role="alert"></div></div>
+        <div class="collapse ${signupRole==='scholar'?'open':''}" id="schFields">
+          <div class="field"><label>Ijazah / qualification</label><input id="suI" placeholder="e.g. Ijazah in Hafs ʿan ʿAsim"></div>
+          <div class="field"><label>Specialties (comma separated)</label><input id="suS" placeholder="Tajweed, Hifz, Qira'at"></div>
+          <div class="field"><label>Short bio</label><textarea id="suB" placeholder="Teaching experience…"></textarea></div>
+          <p class="hint" style="margin:-4px 0 12px">Scholar accounts are reviewed by an admin before appearing in the directory.</p>
+        </div>
+        <button class="btn" style="width:100%" id="suB2">Create account</button>
+      </form>
+    </div>
+    <p style="text-align:center;margin-top:16px"><button class="linkbtn" onclick="go(returnView||defaultView())">← Continue browsing without an account</button></p>
+  </div>`;
+  animate();(authTab==='signin'?$('#siU'):$('#suN')).focus();
+}
+const VIEWS={planner:viewPlanner,home:viewHome,quran:viewQuran,scholars:viewScholars,requests:viewRequests,queue:viewQueue,overview:viewOverview,users:viewUsers,allreq:viewAllReq,audit:viewAudit,verify:viewVerify,profile:viewProfile,signin:viewAuth,
+  /* madrasah module (js/madrasah.js) */
+  progress:viewProgress,tdash:viewTeacher,roster:viewRoster,tsessions:viewTSessions,madrasahs:viewMadrasahs,analytics:viewAnalytics,members:viewMembers,msessions:viewMSessions,mdash:viewMDash};
+
+/* ---------- PWA: install, offline, updates ---------- */
+let deferredInstall=null;
+const isStandalone=()=>window.matchMedia('(display-mode: standalone)').matches||navigator.standalone===true;
+const isIOS=()=>/iphone|ipad|ipod/i.test(navigator.userAgent)&&!window.MSStream;
+function showInstallBar(){
+  if(isStandalone())return;
+  const dis=+localStorage.getItem('nh_install_dismissed')||0;if(Date.now()-dis<7*864e5)return;
+  if(deferredInstall){$('#installBtn').style.display='';$('#installBar').classList.add('show')}
+  else if(isIOS()){$('#installTxt').textContent='On iPhone/iPad: tap the Share button, then “Add to Home Screen”.';$('#installBtn').style.display='none';$('#installBar').classList.add('show')}
+}
+function dismissInstall(){localStorage.setItem('nh_install_dismissed',Date.now());$('#installBar').classList.remove('show')}
+async function doInstall(){
+  if(!deferredInstall){toast(isIOS()?'Tap Share, then Add to Home Screen':'Use your browser menu → Install app');return}
+  deferredInstall.prompt();const r=await deferredInstall.userChoice;deferredInstall=null;$('#installBar').classList.remove('show');refreshInstallUI();
+  if(r.outcome==='accepted')toast('Installing Noor Hifz…')
+}
+function refreshInstallUI(){
+  const b=$('#instBtn2'),m=$('#instManual'),h=$('#instHint');if(!b)return;
+  if(isStandalone()){h.textContent='You are using the installed app. ✓';b.style.display='none';m.textContent='';return}
+  if(deferredInstall){b.style.display='';m.textContent=''}
+  else{b.style.display='none';m.textContent=isIOS()?'On iPhone/iPad: tap Share, then “Add to Home Screen”.':'On Android (Chrome): open the ⋮ menu and choose “Install app” or “Add to Home screen”.'}
+}
+window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();deferredInstall=e;setTimeout(showInstallBar,4000);refreshInstallUI()});
+window.addEventListener('appinstalled',()=>{deferredInstall=null;$('#installBar').classList.remove('show');toast('Noor Hifz installed ✓');refreshInstallUI()});
+function setOnline(){const off=!navigator.onLine;$('#offlineBar').classList.toggle('show',off);if(!off&&typeof flushQueue==='function')flushQueue()}
+window.addEventListener('online',setOnline);window.addEventListener('offline',setOnline);
+if('serviceWorker' in navigator){
+  window.addEventListener('load',()=>{
+    navigator.serviceWorker.register('/sw.js').then(reg=>{
+      const announce=w=>{if(!w)return;const bar=document.createElement('div');bar.className='toast';bar.style.cssText='pointer-events:auto;display:flex;gap:12px;align-items:center';bar.innerHTML='A new version is ready <button class="btn sm ghost" style="color:inherit;border-color:currentColor">Refresh</button>';bar.querySelector('button').onclick=()=>w.postMessage('SKIP_WAITING');$('#toasts').appendChild(bar)};
+      if(reg.waiting&&navigator.serviceWorker.controller)announce(reg.waiting);
+      reg.addEventListener('updatefound',()=>{const w=reg.installing;w&&w.addEventListener('statechange',()=>{if(w.state==='installed'&&navigator.serviceWorker.controller)announce(w)})});
+    }).catch(()=>{});
+    let reloading=false;navigator.serviceWorker.addEventListener('controllerchange',()=>{if(reloading)return;reloading=true;location.reload()});
+  });
+}
+
+/* ---------- boot ---------- */
+(async function boot(){
+  applyTheme(localStorage.getItem('nh_theme')||'system');
+  setOnline();
+  if(session){try{const u=await api('app_whoami',{p_token:session.token});session={...session,...u,token:session.token};localStorage.setItem('nh_session',JSON.stringify(session))}catch(e){if(navigator.onLine){session=null;localStorage.removeItem('nh_session')}}}
+  buildHeader();await loadPlan();
+  const q=new URLSearchParams(location.search),v=q.get('verify'),g=q.get('go');
+  if(v){go('verify');$('#vc').value=v;runVerify()}
+  else if(g&&VIEWS[g]){go(g)}
+  else go(defaultView());
+  if(typeof flushQueue==='function')flushQueue();
+})();
+</script>
+</body>
+</html>
