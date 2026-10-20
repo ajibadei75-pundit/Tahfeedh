@@ -14,18 +14,17 @@
 <link rel="manifest" href="/manifest.webmanifest">
 <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png">
 <link rel="icon" type="image/png" sizes="32x32" href="/icons/favicon-32.png">
-<link rel="stylesheet" href="/css/madrasah.css">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📖</text></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Inter:wght@400;500;600;700&family=Lora:wght@500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Amiri+Quran&family=Amiri:wght@400;700&family=Inter:wght@400;500;600;700&family=Newsreader:opsz,wght@6..72,500;6..72,600&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
 <style>
 @property --pct{syntax:'<number>';inherits:false;initial-value:0;}
 :root{
-  --ink:#152722;--ink-soft:#5B7069;--gold:#B08A34;--gold-bright:#D9B968;
-  --accent:#0F3D3A;--on-accent:#fff;--heading:#0F3D3A;--coral:#B85C3E;
-  --bg:#FBF8EF;--panel:#fff;--line:#E7DFC8;--line-soft:#F0EAD8;
+  --ink:#152722;--ink-soft:#5B7069;--gold:#B38B2E;--gold-bright:#D9B968;
+  --accent:#0B4A43;--on-accent:#fff;--heading:#0B4A43;--coral:#B85C3E;
+  --bg:#FAF7F0;--panel:#fff;--line:#E7DFC8;--line-soft:#F0EAD8;
   --c-pending:#9C7A1E;--c-review:#2E4A9C;--c-corrections:#B85C2E;--c-certified:#2F7A46;
   --shadow:0 1px 2px rgba(21,39,34,.05);--ease:cubic-bezier(.22,1,.36,1);
 }
@@ -43,7 +42,7 @@
 html{scroll-behavior:smooth}
 body{margin:0;min-height:100vh;background:var(--bg);color:var(--ink);font-family:Inter,-apple-system,sans-serif;line-height:1.55;-webkit-font-smoothing:antialiased;transition:background .3s,color .3s}
 body::before{content:"";position:fixed;inset:0;z-index:-1;opacity:.05;pointer-events:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 80 80'%3E%3Cg fill='none' stroke='%23B08A34' stroke-width='1'%3E%3Crect x='20' y='20' width='40' height='40'/%3E%3Crect x='20' y='20' width='40' height='40' transform='rotate(45 40 40)'/%3E%3C/g%3E%3C/svg%3E")}
-h1,h2,h3{font-family:Lora,Georgia,serif;font-weight:600;margin:0;color:var(--heading)}
+h1,h2,h3{font-family:Newsreader,Georgia,serif;font-weight:600;margin:0;color:var(--heading)}
 button{font-family:inherit}
 @media(prefers-reduced-motion:reduce){*{animation-duration:.01ms!important;transition-duration:.01ms!important}}
 @keyframes rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
@@ -62,7 +61,7 @@ header.top{position:sticky;top:0;z-index:20;background:color-mix(in srgb,var(--b
 .brandrow{max-width:980px;margin:0 auto;padding:12px 20px;display:flex;align-items:center;justify-content:space-between;gap:12px}
 .brand{display:flex;align-items:center;gap:10px;cursor:pointer}
 .mark{width:36px;height:36px;border-radius:50%;background:radial-gradient(circle at 30% 30%,var(--gold-bright),var(--gold));display:grid;place-items:center;color:#0A2A28;font-weight:700;font-size:15px;flex-shrink:0}
-.brand b{font-family:Lora,serif;font-size:18px;color:var(--heading)}
+.brand b{font-family:Newsreader,serif;font-size:18px;color:var(--heading)}
 .rightrow{display:flex;align-items:center;gap:10px}
 .iconbtn{width:36px;height:36px;border-radius:50%;border:1px solid var(--line);background:var(--panel);cursor:pointer;font-size:15px;transition:.15s}
 .iconbtn:hover{border-color:var(--gold);transform:rotate(15deg)}
@@ -140,14 +139,14 @@ input.err{border-color:var(--coral);animation:shake .3s}
 .steps i.on::after{transform:none}
 .stepcard{display:none}.stepcard.on{display:block;animation:rise .4s var(--ease)}
 .slabel{font-size:11px;text-transform:uppercase;letter-spacing:.07em;color:var(--gold);font-weight:700}
-.sq{font-family:Lora,serif;font-size:18px;color:var(--heading);margin:4px 0 18px}
+.sq{font-family:Newsreader,serif;font-size:18px;color:var(--heading);margin:4px 0 18px}
 
 .ring{--pct:0;width:var(--s,140px);height:var(--s,140px);border-radius:50%;flex-shrink:0;background:conic-gradient(var(--gold) calc(var(--pct)*1%),var(--line-soft) 0);display:grid;place-items:center;transition:--pct 1.3s var(--ease)}
 .ring div{width:calc(var(--s,140px) - 28px);height:calc(var(--s,140px) - 28px);border-radius:50%;background:var(--panel);display:grid;place-content:center;text-align:center}
-.ring b{font-size:24px;font-family:Lora,serif;color:var(--heading)}.ring small{font-size:10.5px;color:var(--ink-soft)}
+.ring b{font-size:24px;font-family:Newsreader,serif;color:var(--heading)}.ring small{font-size:10.5px;color:var(--ink-soft)}
 .stat{border:1px solid var(--line);border-radius:10px;padding:14px 16px;background:var(--bg);transition:transform .2s var(--ease),border-color .2s}
 .stat:hover{transform:translateY(-3px);border-color:var(--gold)}
-.stat b{display:block;font-size:26px;font-family:Lora,serif;color:var(--heading);line-height:1.2}
+.stat b{display:block;font-size:26px;font-family:Newsreader,serif;color:var(--heading);line-height:1.2}
 .stat span{font-size:11.5px;color:var(--ink-soft)}
 .bar{height:9px;background:var(--line-soft);border-radius:9px;overflow:hidden}
 .sparkpath{stroke-dasharray:420;stroke-dashoffset:420;animation:draw 1.2s var(--ease) forwards}
@@ -162,7 +161,7 @@ input.err{border-color:var(--coral);animation:shake .3s}
 
 .scard{border:1px solid var(--line);border-radius:10px;padding:18px;background:var(--panel);transition:transform .25s var(--ease),box-shadow .25s,border-color .25s;display:flex;flex-direction:column;gap:8px}
 .scard:hover{transform:translateY(-4px);box-shadow:0 14px 30px rgba(15,61,58,.1);border-color:var(--gold)}
-.scard .avatar{width:44px;height:44px;font-size:16px;font-family:Lora,serif}
+.scard .avatar{width:44px;height:44px;font-size:16px;font-family:Newsreader,serif}
 .tag{font-size:10.5px;border:1px solid var(--line);padding:3px 9px;border-radius:99px;color:var(--ink-soft);display:inline-block;margin:0 5px 5px 0}
 .card{border:1px solid var(--line);border-radius:10px;padding:16px;margin-bottom:12px;background:var(--panel);animation:rise .4s var(--ease) both;animation-delay:calc(var(--i,0)*60ms)}
 .meta{font-size:12px;color:var(--ink-soft)}
@@ -236,24 +235,27 @@ table.tbl{width:100%;border-collapse:collapse;font-size:13.5px}
 #printarea{display:none}
 @media print{body>*:not(#printarea){display:none!important}#printarea{display:block!important;padding:30px}.noprint{display:none!important}.cert{background:#fff}}
 </style>
+<link rel="stylesheet" href="/css/madrasah.css">
 </head>
 <body>
 <a href="#main" class="skiplink">Skip to content</a>
 
 <header class="top">
   <div class="brandrow">
-    <div class="brand" onclick="go(defaultView())"><div class="mark">﴾﴿</div><b>Noor Hifz</b></div>
+    <div class="brand" onclick="go(defaultView())" role="link" tabindex="0" aria-label="Noor Hifz home"><span class="logo"><svg viewBox="0 0 48 48" width="38" height="38" aria-hidden="true"><defs><linearGradient id="lg1" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#14665C"/><stop offset="1" stop-color="#082F2B"/></linearGradient></defs><rect width="48" height="48" rx="12" fill="url(#lg1)"/><g stroke="#E3C46F" stroke-width="1.6" stroke-linecap="round"><path d="M24 9v5M14.5 12.5l2.6 3.8M33.5 12.5l-2.6 3.8M8.5 20l4.4 1.8M39.5 20l-4.4 1.8"/></g><path d="M24 33c-4-3-9-3.6-14-2.6V19.5c5-.9 10 .1 14 3 4-2.9 9-3.9 14-3v10.9c-5-1-10-.4-14 2.6z" fill="#E3C46F"/><path d="M24 22.5V33" stroke="#0B4A43" stroke-width="1.4"/><path d="M12.5 23.2c3.2-.4 6.3.2 9 1.8M12.5 27c3.2-.4 6.3.2 9 1.8M35.5 23.2c-3.2-.4-6.3.2-9 1.8M35.5 27c-3.2-.4-6.3.2-9 1.8" stroke="#0B4A43" stroke-width="1.1" fill="none" stroke-linecap="round"/></svg></span><span class="wordmark"><b>Noor Hifz</b><small lang="ar">نور الحفظ</small></span></div>
     <div class="rightrow"><span id="roleChip"></span><button class="iconbtn" id="themeBtn" onclick="cycleTheme()" title="Toggle color theme" aria-label="Toggle color theme">🌓</button><div id="userArea"></div></div>
   </div>
   <nav class="tabsbar" id="tabs" aria-label="Main navigation"></nav>
 </header>
 
 <main class="wrap" id="main" tabindex="-1"></main>
+<nav class="bottomnav" id="bottomNav" aria-label="Primary"></nav>
 <div class="modal-bg" id="modalBg" onclick="if(event.target===this)closeModal()"><div class="modal" id="modal" role="dialog" aria-modal="true"></div></div>
 <div id="printarea"></div><div class="toastwrap" id="toasts" aria-live="polite" role="status"></div>
 <div class="offline-bar" id="offlineBar" role="status">You're offline — saved data still works. Teacher logs will sync when you reconnect.</div>
 <div class="pwa-bar" id="installBar" role="dialog" aria-label="Install Noor Hifz"><b>Install Noor Hifz</b><p class="hint" id="installTxt" style="margin:4px 0 0">Add it to your home screen — opens like an app, works offline.</p><div class="row"><button class="btn sm" id="installBtn" onclick="doInstall()">Install</button><button class="btn sm ghost" onclick="dismissInstall()">Not now</button></div></div>
 
+<script src="/js/quran.js"></script>
 <script src="/js/madrasah.js"></script>
 <script>
 const sb = supabase.createClient('https://jpnddovbivuihfkbsuiu.supabase.co','eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImpwbmRkb3ZiaXZ1aWhma2JzdWl1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTA1MzIzMzYsImV4cCI6MjEwNjEwODMzNn0.YbwJV_o79Lo6j9NuBB0zwKMECPVyE9YuGE1Rko0iTZg',{auth:{persistSession:false}});
@@ -319,15 +321,24 @@ const NAV={
 };
 function navItems(){const r=role();return r==='user'&&session&&session.madrasah_id?NAV.student:NAV[r]}
 const defaultView=()=>role()==='user'&&session&&session.madrasah_id?'progress':({guest:'planner',user:'home',scholar:'queue',admin:'overview',teacher:'tdash',madrasah_admin:'mdash'})[role()];
+const NAVICON={"planner": "🧮", "quran": "📖", "scholars": "🎓", "verify": "✅", "signin": "🔑", "home": "🏠", "requests": "📜", "profile": "👤", "progress": "📈", "tdash": "🎙️", "roster": "👥", "tsessions": "🗒️", "mdash": "🏫", "members": "👥", "analytics": "📊", "msessions": "🗒️", "queue": "🎓", "overview": "🧭", "madrasahs": "🏫", "users": "👥", "allreq": "📜", "audit": "🧾"};
+function buildBottom(){
+  const items=navItems(),main=items.length>5?items.slice(0,4):items,more=items.length>5?items.slice(4):[];
+  $('#bottomNav').innerHTML=main.map(n=>`<button data-v="${n[0]}" onclick="go('${n[0]}')"><i aria-hidden="true">${NAVICON[n[0]]||'•'}</i><span>${n[1].replace('My ','')}</span></button>`).join('')+(more.length?`<button data-v="__more" onclick="moreSheet()"><i aria-hidden="true">⋯</i><span>More</span></button>`:'');
+}
+function moreSheet(){
+  const items=navItems().slice(4);
+  openModal(`<h3>More</h3><div class="grid" style="gap:8px">${items.map(n=>`<button class="btn ghost" style="justify-content:flex-start;width:100%" onclick="closeModal();go('${n[0]}')"><i aria-hidden="true" style="font-style:normal;margin-right:8px">${NAVICON[n[0]]||'•'}</i>${n[1]}</button>`).join('')}</div>`);
+}
 function buildHeader(){
-  $('#tabs').innerHTML=navItems().map(n=>`<button data-v="${n[0]}" onclick="go('${n[0]}')" aria-current="false">${n[1]}</button>`).join('');
+  $('#tabs').innerHTML=navItems().map(n=>`<button data-v="${n[0]}" onclick="go('${n[0]}')" aria-current="false"><i aria-hidden="true">${NAVICON[n[0]]||''}</i> ${n[1]}</button>`).join('');buildBottom();
   $('#roleChip').innerHTML=session?`<span class="chip">${esc(roleLabel(session.role))}</span>`:'';
   $('#userArea').innerHTML=session?`<div class="userbox"><div class="avatar" aria-hidden="true">${esc(initials(session.display_name))}</div><span class="uname">${esc(session.display_name)}</span><button class="linkbtn" onclick="signOut()">Sign out</button></div>`:`<button class="btn sm" onclick="goAuth('signin')">Sign in</button>`;
 }
 function go(id){
   if(id!=='verify'&&id!=='signin'&&!navItems().some(n=>n[0]===id)) id=defaultView();
   view=id;timers.forEach(clearInterval);timers=[];stopAudio();
-  document.querySelectorAll('#tabs button').forEach(b=>{const on=b.dataset.v===id;b.classList.toggle('active',on);b.setAttribute('aria-current',on?'page':'false')});
+  document.querySelectorAll('#tabs button,#bottomNav button').forEach(b=>{const on=b.dataset.v===id||(b.dataset.v==='__more'&&!navItems().slice(0,4).some(n=>n[0]===id));b.classList.toggle('active',on);b.setAttribute('aria-current',on?'page':'false')});
   const m=$('#main');m.classList.remove('enter');void m.offsetWidth;m.classList.add('enter');window.scrollTo({top:0});
   m.focus({preventScroll:true});VIEWS[id]();
 }
@@ -427,7 +438,7 @@ async function pCalc(quiet){
   if(!(total>0)||!(np.pace>0)){toast('Enter a valid goal and pace',true);return}
   plan=np;const pr=project(plan);
   $('#pRes').innerHTML=`<div class="row" style="gap:26px">${ring(pr.pct)}<div style="flex:1;min-width:220px">
-    <div style="font-family:Lora,serif;font-size:26px;color:var(--heading)">${pr.done?'Already complete 🎉':pr.finish.toLocaleDateString(undefined,{year:'numeric',month:'long',day:'numeric'})}</div>
+    <div style="font-family:Newsreader,serif;font-size:26px;color:var(--heading)">${pr.done?'Already complete 🎉':pr.finish.toLocaleDateString(undefined,{year:'numeric',month:'long',day:'numeric'})}</div>
     <div class="hint">Projected completion date</div>
     <div class="grid g3" style="margin-top:14px"><div class="stat"><b>${pr.rem.toFixed(0)}</b><span>pages left</span></div><div class="stat"><b>${pr.weeks}</b><span>weeks</span></div><div class="stat"><b>${pr.eff.toFixed(2)}</b><span>new pages/day</span></div></div></div></div>
     <div class="row" style="margin-top:20px;padding-top:16px;border-top:1px dashed var(--line)"><label class="switch"><input type="checkbox" id="rem" onchange="toggleRem()"><span class="slider"></span></label><div><b style="font-size:13.5px">Daily reminder</b><div class="hint" id="remS">Browser notification while this tab is open.</div></div></div>
@@ -467,42 +478,6 @@ async function loadPrayer(){
     tick();timers.push(setInterval(tick,1000));
   }catch(e){box.innerHTML=prayerForm('Could not load prayer times — check the city and country.')}
 }
-
-/* ---------- Quran (Al Quran Cloud API) ---------- */
-async function getSurahs(){if(surahs)return surahs;const j=await (await fetch('https://api.alquran.cloud/v1/surah')).json();surahs=j.data;return surahs}
-const audio=new Audio();let cur=null,curIdx=-1,playAll=false,repeatN=1,repeatLeft=1;
-audio.onended=()=>{
-  if(repeatLeft>1){repeatLeft--;audio.currentTime=0;audio.play();return}
-  if(playAll&&curIdx+1<cur.ayahs.length)playAyah(curIdx+1,true);else stopAudio();
-};
-function stopAudio(){audio.pause();playAll=false;curIdx=-1;document.querySelectorAll('.ayah.playing').forEach(e=>e.classList.remove('playing'));document.querySelectorAll('.play').forEach(b=>{b.textContent='▶';b.setAttribute('aria-label','Play this ayah')})}
-function playAyah(i,all){
-  if(curIdx===i&&!audio.paused&&!all){stopAudio();return}
-  stopAudio();playAll=!!all;curIdx=i;repeatLeft=all?1:repeatN;audio.src=cur.ayahs[i].audio;audio.play().catch(()=>toast('Audio could not play',true));
-  const el=$('#ay'+i);if(el){el.classList.add('playing');const b=el.querySelector('.play');b.textContent='❚❚';b.setAttribute('aria-label','Pause');el.scrollIntoView({behavior:'smooth',block:'center'})}
-}
-function setRepeat(n){repeatN=n;document.querySelectorAll('.repbtn').forEach(b=>b.setAttribute('aria-pressed',+b.dataset.n===n))}
-function toggleTest(){$('#ayl').classList.toggle('test-mode');document.querySelectorAll('.ayah .ar').forEach(el=>el.onclick=()=>el.parentElement.parentElement.classList.toggle('revealed'))}
-async function viewQuran(){
-  $('#main').innerHTML=`<div class="panel st"><h2>Read &amp; listen</h2><p class="hint">Full text with Mishary Alafasy's recitation and the Sahih International translation.</p>
-   <div class="row" style="margin-top:14px"><select id="sur" style="flex:1;min-width:220px" onchange="loadSurah(this.value)"><option>Loading surahs…</option></select><label class="row" style="margin:0"><span class="switch"><input type="checkbox" id="trT" checked onchange="$('#ayl').classList.toggle('hide-tr',!this.checked)"><span class="slider"></span></span>Translation</label></div></div><div id="surBox">${sk(3)}</div>`;
-  animate();
-  try{const l=await getSurahs();$('#sur').innerHTML=l.map(s=>`<option value="${s.number}">${s.number}. ${esc(s.englishName)} — ${esc(s.name)}</option>`).join('');loadSurah(prefill&&prefill.surah?prefill.surah:1);if(prefill&&prefill.surah)$('#sur').value=prefill.surah;prefill=null}
-  catch(e){$('#surBox').innerHTML='<div class="panel empty">Could not reach the Quran API. Check your connection and retry.</div>'}
-}
-async function loadSurah(n){
-  stopAudio();$('#surBox').innerHTML=sk(4);
-  try{
-    const j=await (await fetch(`https://api.alquran.cloud/v1/surah/${n}/editions/ar.alafasy,en.sahih`)).json();const[a,t]=j.data;
-    cur={n:+n,name:a.englishName,ayahs:a.ayahs.map((x,i)=>({num:x.numberInSurah,text:x.text,audio:x.audio,tr:t.ayahs[i].text}))};
-    $('#surBox').innerHTML=`<div class="panel"><div class="row between"><div><h2 style="font-size:22px">${esc(a.englishName)} <span style="font-family:Amiri,serif" lang="ar">${esc(a.name)}</span></h2><p class="hint">${esc(a.englishNameTranslation)} · ${a.numberOfAyahs} ayahs · ${esc(a.revelationType)}</p></div>
-      <div class="row"><button class="btn sm" onclick="playAyah(0,true)">▶ Play all</button><button class="btn sm ghost" onclick="stopAudio()">Stop</button><button class="btn sm ghost" onclick="certifyThis()">🎓 Get certified</button></div></div>
-      <div class="row" style="margin-top:12px;padding-top:12px;border-top:1px dashed var(--line)"><span class="hint" style="margin:0">Repeat each ayah:</span><div class="chips" role="group" aria-label="Repeat count" style="margin:0">${[1,3,5].map(n=>`<button type="button" class="repbtn" data-n="${n}" aria-pressed="${repeatN===n}" onclick="setRepeat(${n})">${n===1?'Off':'×'+n}</button>`).join('')}</div>
-      <label class="row" style="margin:0 0 0 auto"><span class="switch"><input type="checkbox" id="testMode" onchange="toggleTest()"><span class="slider"></span></span>Test myself</label></div>
-      <div id="ayl" class="${$('#trT')&&!$('#trT').checked?'hide-tr':''}" style="margin-top:8px">${cur.ayahs.map((x,i)=>`<div class="ayah" id="ay${i}"><span class="num" aria-hidden="true">${x.num}</span><div class="body"><div class="ar" lang="ar">${esc(x.text)}</div><div class="tr">${esc(x.tr)}</div></div><button class="play" onclick="playAyah(${i})" aria-label="Play ayah ${x.num}">▶</button></div>`).join('')}</div></div>`;
-  }catch(e){$('#surBox').innerHTML='<div class="panel empty">Could not load this surah right now.</div>'}
-}
-function certifyThis(){if(!session){goAuth('signup');return}if(session.role!=='user'){toast('Only student accounts can request certification');return}prefill={surah:cur.n};go('scholars')}
 
 /* ---------- scholars directory ---------- */
 let scholarsData=[];
@@ -712,7 +687,7 @@ async function changePw(){
 function viewAuth(){
   if(session){go(defaultView());return}
   $('#main').innerHTML=`<div class="authwrap st">
-    <div class="authhero"><div class="mark" aria-hidden="true" style="margin:0 auto 12px">﴾﴿</div><h1 style="font-size:24px">Welcome to Noor Hifz</h1><p class="hint">Sign in or create your account to save your plan and request certification.</p></div>
+    <div class="authhero"><span class="logo" style="display:inline-block;margin-bottom:10px"><svg viewBox="0 0 48 48" width="56" height="56" aria-hidden="true"><defs><linearGradient id="lg2" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#14665C"/><stop offset="1" stop-color="#082F2B"/></linearGradient></defs><rect width="48" height="48" rx="12" fill="url(#lg2)"/><g stroke="#E3C46F" stroke-width="1.6" stroke-linecap="round"><path d="M24 9v5M14.5 12.5l2.6 3.8M33.5 12.5l-2.6 3.8M8.5 20l4.4 1.8M39.5 20l-4.4 1.8"/></g><path d="M24 33c-4-3-9-3.6-14-2.6V19.5c5-.9 10 .1 14 3 4-2.9 9-3.9 14-3v10.9c-5-1-10-.4-14 2.6z" fill="#E3C46F"/><path d="M24 22.5V33" stroke="#0B4A43" stroke-width="1.4"/><path d="M12.5 23.2c3.2-.4 6.3.2 9 1.8M12.5 27c3.2-.4 6.3.2 9 1.8M35.5 23.2c-3.2-.4-6.3.2-9 1.8M35.5 27c-3.2-.4-6.3.2-9 1.8" stroke="#0B4A43" stroke-width="1.1" fill="none" stroke-linecap="round"/></svg></span><h1 style="font-size:24px">Welcome to Noor Hifz</h1><p class="hint">Sign in or create your account to save your plan and request certification.</p></div>
     <div class="panel">
       <div class="authtabs" role="tablist" aria-label="Sign in or sign up">
         <button id="tSignin" role="tab" aria-selected="${authTab==='signin'}" aria-controls="fSignin" onclick="switchTab('signin')">Sign in</button>

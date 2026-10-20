@@ -1,11 +1,11 @@
 /* Noor Hifz service worker — offline shell, runtime caching, safe updates */
-const VERSION = 'nh-v4';
+const VERSION = 'nh-v6';
 const SHELL_CACHE = VERSION + '-shell';
 const RUNTIME_CACHE = VERSION + '-runtime';
 const QURAN_CACHE = 'nh-quran'; // kept across versions so downloaded surahs stay available offline
 
 const SHELL = [
-  '/', '/index.html', '/css/madrasah.css', '/js/madrasah.js', '/manifest.webmanifest',
+  '/', '/index.html', '/css/madrasah.css', '/js/madrasah.js', '/js/quran.js', '/manifest.webmanifest',
   '/icons/icon-192.png', '/icons/icon-512.png', '/icons/favicon-32.png'
 ];
 const CDN_PRECACHE = ['https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js'];

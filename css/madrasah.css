@@ -46,7 +46,7 @@ header.top{padding-top:env(safe-area-inset-top)}
 .donut{width:150px;height:150px;flex-shrink:0}
 .donut circle{fill:none;stroke-width:14;transform:rotate(-90deg);transform-origin:50% 50%}
 .donut .dseg{transition:stroke-dasharray 1.1s var(--ease)}
-.donut text{font-family:Lora,Georgia,serif;fill:var(--heading)}
+.donut text{font-family:Newsreader,Georgia,serif;fill:var(--heading)}
 .legend{display:flex;flex-direction:column;gap:9px;font-size:13px}
 .legend i{display:inline-block;width:11px;height:11px;border-radius:3px;margin-right:8px;vertical-align:-1px}
 .gr{transform-box:fill-box;transform-origin:bottom;animation:grow .9s var(--ease) both}
@@ -95,3 +95,81 @@ header.top{padding-top:env(safe-area-inset-top)}
   .donut{width:130px;height:130px}
   .scopebar select{width:100%}
 }
+
+/* ---- Segment 1: brand + navigation ---- */
+.brand{gap:10px}.logo{display:inline-flex;filter:drop-shadow(0 2px 6px rgba(8,47,43,.25))}
+.wordmark{display:flex;flex-direction:column;line-height:1.05}.wordmark b{font-family:Newsreader,Georgia,serif;font-size:20px;letter-spacing:.2px;color:var(--heading)}
+.wordmark small{font-family:Amiri,serif;font-size:13px;color:var(--gold);margin-top:2px}
+.tabsbar button i{font-style:normal;margin-right:4px;opacity:.9}
+.bottomnav{display:none}
+@media(max-width:760px){
+  .tabsbar{display:none}
+  .bottomnav{display:flex;position:fixed;left:0;right:0;bottom:0;z-index:40;background:color-mix(in srgb,var(--panel) 94%,transparent);backdrop-filter:blur(12px);border-top:1px solid var(--line);padding:6px 6px calc(6px + env(safe-area-inset-bottom));gap:2px}
+  .bottomnav button{flex:1;border:none;background:none;color:var(--ink-soft);display:flex;flex-direction:column;align-items:center;gap:2px;padding:6px 2px;border-radius:12px;font-size:10.5px;font-weight:600;min-height:52px;cursor:pointer;transition:.2s var(--ease)}
+  .bottomnav button i{font-style:normal;font-size:20px;line-height:1}
+  .bottomnav button.active{color:var(--heading);background:color-mix(in srgb,var(--gold) 16%,transparent)}
+  .wrap{padding-bottom:calc(96px + env(safe-area-inset-bottom))}
+  .pwa-bar{bottom:calc(76px + env(safe-area-inset-bottom))}
+  .brandrow{padding-bottom:10px}
+}
+
+/* ================= Segment 2: Qur'an reader ================= */
+.qctl .row{margin-top:10px}.qctl select{width:auto;flex:1 1 170px;min-width:0}
+.qnav{flex-wrap:nowrap}.qnav .btn{min-width:44px}
+.mushaf{font-family:'Amiri Quran','Amiri',serif;line-height:2.4;text-align:justify;padding:20px clamp(12px,3vw,34px);background:var(--panel);border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow);margin-bottom:12px;color:var(--ink)}
+.ay{cursor:pointer;border-radius:8px;padding:2px 3px;transition:background .25s;-webkit-box-decoration-break:clone;box-decoration-break:clone}
+@media(hover:hover){.ay:hover{background:color-mix(in srgb,var(--gold) 14%,transparent)}}
+.ay.playing,.vcard.playing{background:color-mix(in srgb,var(--gold) 26%,transparent)}
+.aend{color:var(--gold);font-size:.74em;margin:0 5px;white-space:nowrap}
+.sbanner{text-align:center;margin:22px 0 10px;padding:16px 10px;border:1.5px solid var(--gold);border-radius:14px;background:linear-gradient(180deg,color-mix(in srgb,var(--gold) 10%,var(--panel)),var(--panel));box-shadow:inset 0 0 0 4px var(--panel),inset 0 0 0 5px color-mix(in srgb,var(--gold) 45%,transparent)}
+.sb-ar{font-family:'Amiri Quran','Amiri',serif;font-size:clamp(26px,5vw,38px);color:var(--heading);line-height:1.5}
+.sb-en{font-family:Newsreader,Georgia,serif;font-size:15px;color:var(--ink-soft)}
+.bism{font-family:'Amiri Quran','Amiri',serif;text-align:center;margin:4px 0 14px;color:var(--heading)}
+.vcard{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:12px 14px;margin-bottom:10px;transition:background .25s}
+.vhead{display:flex;justify-content:space-between;align-items:center;margin-bottom:4px}
+.vcard .num{min-width:32px;height:32px;border-radius:50%;border:1px solid var(--gold);color:var(--gold);display:grid;place-items:center;font-size:12px;font-weight:700}
+.vtext{font-family:'Amiri Quran','Amiri',serif;line-height:2.2;text-align:right}
+.vcard .tr{font-size:14px;color:var(--ink-soft);margin-top:6px;border-top:1px dashed var(--line);padding-top:8px}
+.testmode .ay,.testmode .vtext{filter:blur(8px);cursor:pointer;user-select:none;transition:filter .3s}
+.testmode .ay.revealed,.testmode .vcard.revealed .vtext{filter:none}
+.qpad{height:96px}
+.qplayer{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(12px + env(safe-area-inset-bottom));width:min(760px,calc(100% - 20px));z-index:45;background:color-mix(in srgb,var(--panel) 96%,transparent);backdrop-filter:blur(12px);border:1px solid var(--line);border-radius:18px;box-shadow:0 12px 40px rgba(0,0,0,.28);padding:8px 10px;display:flex;align-items:center;gap:6px}
+.qplayer .play{width:42px;height:42px;font-size:15px}.qplayer .play.big{width:50px;height:50px;background:var(--accent);color:var(--on-accent);border-color:var(--accent);font-size:18px}
+.qinfo{flex:1;min-width:0;display:flex;flex-direction:column;line-height:1.2}.qinfo b{font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.qinfo small{font-size:11px;color:var(--ink-soft);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.qplayer select{width:auto;padding:7px 8px;font-size:12.5px;min-height:40px}
+@media(max-width:760px){.qplayer{bottom:calc(68px + env(safe-area-inset-bottom));flex-wrap:wrap;justify-content:center;padding:8px}.qinfo{flex-basis:100%;order:-1;text-align:center}.qpad{height:150px}}
+
+/* ================= Fit any device ================= */
+html{font-size:clamp(15px,.5vw + 12.8px,18px);-webkit-text-size-adjust:100%;text-size-adjust:100%}
+body{min-height:100vh;min-height:100dvh;overflow-x:hidden}
+.wrap,.brandrow,.tabsbar{width:100%;max-width:min(1180px,100%);padding-left:max(16px,env(safe-area-inset-left));padding-right:max(16px,env(safe-area-inset-right))}
+.grid>*,.row>*,.panel,.card,.stat{min-width:0}
+.g2{grid-template-columns:repeat(auto-fit,minmax(min(100%,330px),1fr))}
+.g3{grid-template-columns:repeat(auto-fit,minmax(min(100%,200px),1fr))}
+.g4{grid-template-columns:repeat(auto-fit,minmax(min(100%,150px),1fr))}
+.scholars{grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr))}
+h1,h2,h3,p,li,td,.meta,.hint,.quote{overflow-wrap:anywhere}
+.tblwrap{max-width:100%;-webkit-overflow-scrolling:touch}
+img,svg,video,canvas{max-width:100%;height:auto}
+@media(pointer:coarse){.btn,.tabsbar button,select,input,.chips button,.qchips button{min-height:44px}.btn.sm{min-height:40px}}
+@media(hover:none){.scard:hover,.stat:hover,.btn:hover{transform:none;box-shadow:none}}
+@media(max-width:760px){
+  input,select,textarea{font-size:16px}
+  .modal-bg{align-items:flex-end;padding:0}
+  .modal{max-width:100%;width:100%;border-radius:20px 20px 0 0;max-height:88vh;max-height:88dvh;padding:20px 18px calc(20px + env(safe-area-inset-bottom))}
+  .ring{--s:128px!important}.stat b{font-size:22px}
+  .panel{padding:18px 15px}
+}
+@media(max-width:380px){
+  .wrap,.brandrow,.tabsbar{padding-left:12px;padding-right:12px}
+  .panel{padding:14px 12px}.stat b{font-size:19px}.btn{padding:11px 14px}
+  .wordmark b{font-size:17px}.logo svg{width:32px;height:32px}.code-big{font-size:21px}
+}
+@media(max-height:480px) and (orientation:landscape){
+  header.top{position:static}
+  .bottomnav{position:static;border-top:none}
+  .wrap{padding-bottom:24px}.qplayer{bottom:6px}.qpad{height:80px}
+}
+@media(min-width:1500px){.wrap,.brandrow,.tabsbar{max-width:1320px}}
+@media(min-width:1900px){html{font-size:19px}.wrap,.brandrow,.tabsbar{max-width:1480px}}
+@media print{.bottomnav,.qplayer,.pwa-bar,.offline-bar{display:none!important}}
