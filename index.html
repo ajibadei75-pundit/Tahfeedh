@@ -14,7 +14,7 @@
 <link rel="manifest" href="/manifest.webmanifest">
 <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png">
 <link rel="icon" type="image/png" sizes="32x32" href="/icons/favicon-32.png">
-<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📖</text></svg>">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22></text></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Amiri+Quran&family=Amiri:wght@400;700&family=Inter:wght@400;500;600;700&family=Newsreader:opsz,wght@6..72,500;6..72,600&display=swap" rel="stylesheet">
@@ -243,7 +243,7 @@ table.tbl{width:100%;border-collapse:collapse;font-size:13.5px}
 <header class="top">
   <div class="brandrow">
     <div class="brand" onclick="go(defaultView())" role="link" tabindex="0" aria-label="Noor Hifz home"><span class="logo"><svg viewBox="0 0 48 48" width="38" height="38" aria-hidden="true"><defs><linearGradient id="lg1" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#14665C"/><stop offset="1" stop-color="#082F2B"/></linearGradient></defs><rect width="48" height="48" rx="12" fill="url(#lg1)"/><g stroke="#E3C46F" stroke-width="1.6" stroke-linecap="round"><path d="M24 9v5M14.5 12.5l2.6 3.8M33.5 12.5l-2.6 3.8M8.5 20l4.4 1.8M39.5 20l-4.4 1.8"/></g><path d="M24 33c-4-3-9-3.6-14-2.6V19.5c5-.9 10 .1 14 3 4-2.9 9-3.9 14-3v10.9c-5-1-10-.4-14 2.6z" fill="#E3C46F"/><path d="M24 22.5V33" stroke="#0B4A43" stroke-width="1.4"/><path d="M12.5 23.2c3.2-.4 6.3.2 9 1.8M12.5 27c3.2-.4 6.3.2 9 1.8M35.5 23.2c-3.2-.4-6.3.2-9 1.8M35.5 27c-3.2-.4-6.3.2-9 1.8" stroke="#0B4A43" stroke-width="1.1" fill="none" stroke-linecap="round"/></svg></span><span class="wordmark"><b>Noor Hifz</b><small lang="ar">نور الحفظ</small></span></div>
-    <div class="rightrow"><span id="roleChip"></span><button class="iconbtn" id="themeBtn" onclick="cycleTheme()" title="Toggle color theme" aria-label="Toggle color theme">🌓</button><div id="userArea"></div></div>
+    <div class="rightrow"><span id="roleChip"></span><button class="iconbtn themetxt" id="themeBtn" onclick="cycleTheme()" title="Colour theme: Auto, Light or Dark" aria-label="Colour theme">Auto</button><div id="userArea"></div></div>
   </div>
   <nav class="tabsbar" id="tabs" aria-label="Main navigation"></nav>
 </header>
@@ -256,13 +256,14 @@ table.tbl{width:100%;border-collapse:collapse;font-size:13.5px}
 <div class="pwa-bar" id="installBar" role="dialog" aria-label="Install Noor Hifz"><b>Install Noor Hifz</b><p class="hint" id="installTxt" style="margin:4px 0 0">Add it to your home screen — opens like an app, works offline.</p><div class="row"><button class="btn sm" id="installBtn" onclick="doInstall()">Install</button><button class="btn sm ghost" onclick="dismissInstall()">Not now</button></div></div>
 
 <script src="/js/quran.js"></script>
+<script src="/js/practice.js"></script>
 <script src="/js/madrasah.js"></script>
 <script>
 const sb = supabase.createClient('https://jpnddovbivuihfkbsuiu.supabase.co','eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImpwbmRkb3ZiaXZ1aWhma2JzdWl1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTA1MzIzMzYsImV4cCI6MjEwNjEwODMzNn0.YbwJV_o79Lo6j9NuBB0zwKMECPVyE9YuGE1Rko0iTZg',{auth:{persistSession:false}});
 const $=s=>document.querySelector(s);
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const fmt=d=>new Date(d).toLocaleDateString(undefined,{year:'numeric',month:'short',day:'numeric'});
-const ERR={invalid_credentials:'Incorrect username or password',username_taken:'That username is already taken',username_invalid:'Username must be 3–20 letters, numbers or underscores',password_too_short:'Password must be at least 8 characters',scholar_not_found:'That scholar is no longer available',self_request:'You cannot send a request to yourself',portion_required:'Add the portion you want to recite',invalid_or_expired_session:'Your session expired — please sign in again',not_admin:'Admins only',not_scholar:'Approved scholars only',forbidden:'You are not allowed to do that',cannot_change_self:'You cannot change your own role',not_found:'Not found',account_suspended:'This account has been suspended. Contact an admin for details.',invalid_code:'That madrasah code is not valid',madrasah_inactive:'This madrasah is currently deactivated. Contact your madrasah admin.',gender_required:'Please choose your gender',plan_required:'Tell us what you plan to memorise',invalid_birth_year:'Enter a valid year of birth',student_not_found:'No student with that code in your madrasah',student_suspended:'That student account is suspended',bad_pages:'Enter pages between 0.25 and 604',bad_rating:'Choose a rating from 1 to 5',bad_date:'The date must be within the last 60 days',comment_too_long:'Comment is too long (max 1000 characters)',session_locked:'Logs can only be removed within 48 hours',not_allowed:'You do not have access to that',name_required:'Enter a name',madrasah_member:'Madrasah members\' roles are managed by the madrasah code they joined with'};
+const ERR={invalid_credentials:'Incorrect username or password',username_taken:'That username is already taken',username_invalid:'Username must be 3–20 letters, numbers or underscores',password_too_short:'Password must be at least 8 characters',scholar_not_found:'That scholar is no longer available',self_request:'You cannot send a request to yourself',portion_required:'Add the portion you want to recite',invalid_or_expired_session:'Your session expired — please sign in again',not_admin:'Admins only',not_scholar:'Approved scholars only',forbidden:'You are not allowed to do that',cannot_change_self:'You cannot change your own role',not_found:'Not found',account_suspended:'This account has been suspended. Contact an admin for details.',invalid_code:'That madrasah code is not valid',madrasah_inactive:'This madrasah is currently deactivated. Contact your madrasah admin.',gender_required:'Please choose your gender',plan_required:'Tell us what you plan to memorise',invalid_birth_year:'Enter a valid year of birth',student_not_found:'No student with that code in your madrasah',student_suspended:'That student account is suspended',bad_pages:'Enter pages between 0.25 and 604',bad_rating:'Choose a rating from 1 to 5',bad_date:'The date must be within the last 60 days',comment_too_long:'Comment is too long (max 1000 characters)',session_locked:'Logs can only be removed within 48 hours',not_allowed:'You do not have access to that',name_required:'Enter a name',gender_mismatch:'You can only be matched with scholars of your own gender',gender_locked:'Your gender is already set. Ask an administrator to change it.',madrasah_member:'Madrasah members\' roles are managed by the madrasah code they joined with'};
 
 let session=null; try{session=JSON.parse(localStorage.getItem('nh_session')||'null')}catch(e){}
 let plan=null, view=null, timers=[], surahs=null, prefill=null;
@@ -306,32 +307,30 @@ function animate(){
 }
 
 /* ---------- theme ---------- */
-function applyTheme(t){const r=document.documentElement;t==='system'?r.removeAttribute('data-theme'):r.setAttribute('data-theme',t);$('#themeBtn').textContent=t==='dark'?'🌙':t==='light'?'☀️':'🌓';localStorage.setItem('nh_theme',t)}
+function applyTheme(t){const r=document.documentElement;t==='system'?r.removeAttribute('data-theme'):r.setAttribute('data-theme',t);$('#themeBtn').textContent=t==='dark'?'Dark':t==='light'?'Light':'Auto';localStorage.setItem('nh_theme',t)}
 function cycleTheme(){const c=localStorage.getItem('nh_theme')||'system';applyTheme(c==='system'?'light':c==='light'?'dark':'system')}
 
 /* ---------- navigation by role ---------- */
 const NAV={
-  guest:[['planner','Planner'],['quran','Quran'],['scholars','Scholars'],['verify','Verify certificate'],['signin','Sign in']],
-  user:[['home','Dashboard'],['planner','Planner'],['quran','Quran'],['scholars','Scholars'],['requests','My requests'],['profile','Profile']],
-  student:[['progress','My progress'],['home','Plan'],['quran','Quran'],['scholars','Scholars'],['requests','Certificates'],['profile','Profile']],
-  teacher:[['tdash','Log session'],['roster','Students'],['tsessions','My sessions'],['quran','Quran'],['profile','Profile']],
-  madrasah_admin:[['mdash','Dashboard'],['members','Members'],['analytics','Analytics'],['msessions','Sessions'],['profile','Profile']],
-  scholar:[['queue','Review queue'],['quran','Quran'],['profile','Profile']],
+  guest:[['planner','Calculator'],['quran','Qur’an'],['practice','Memorize'],['scholars','Scholars'],['verify','Verify certificate'],['signin','Sign in']],
+  student:[['progress','Progress'],['quran','Qur’an'],['practice','Memorize'],['planner','Calculator'],['scholars','Scholars'],['requests','Certificates'],['profile','Profile']],
+  teacher:[['tdash','Record session'],['roster','Students'],['tsessions','My sessions'],['quran','Qur’an'],['profile','Profile']],
+  madrasah_admin:[['mdash','Overview'],['members','Members'],['analytics','Analytics'],['msessions','Sessions'],['profile','Profile']],
+  scholar:[['tdash','Record session'],['queue','Certifications'],['tsessions','My sessions'],['quran','Qur’an'],['profile','Profile']],
   admin:[['overview','Overview'],['madrasahs','Madrasahs'],['analytics','Analytics'],['members','Members'],['msessions','Sessions'],['users','Accounts'],['allreq','Certifications'],['audit','Audit log'],['profile','Profile']]
 };
-function navItems(){const r=role();return r==='user'&&session&&session.madrasah_id?NAV.student:NAV[r]}
-const defaultView=()=>role()==='user'&&session&&session.madrasah_id?'progress':({guest:'planner',user:'home',scholar:'queue',admin:'overview',teacher:'tdash',madrasah_admin:'mdash'})[role()];
-const NAVICON={"planner": "🧮", "quran": "📖", "scholars": "🎓", "verify": "✅", "signin": "🔑", "home": "🏠", "requests": "📜", "profile": "👤", "progress": "📈", "tdash": "🎙️", "roster": "👥", "tsessions": "🗒️", "mdash": "🏫", "members": "👥", "analytics": "📊", "msessions": "🗒️", "queue": "🎓", "overview": "🧭", "madrasahs": "🏫", "users": "👥", "allreq": "📜", "audit": "🧾"};
+function navItems(){return role()==='user'?NAV.student:NAV[role()]}
+const defaultView=()=>({guest:'planner',user:'progress',scholar:'tdash',admin:'overview',teacher:'tdash',madrasah_admin:'mdash'})[role()];
 function buildBottom(){
   const items=navItems(),main=items.length>5?items.slice(0,4):items,more=items.length>5?items.slice(4):[];
-  $('#bottomNav').innerHTML=main.map(n=>`<button data-v="${n[0]}" onclick="go('${n[0]}')"><i aria-hidden="true">${NAVICON[n[0]]||'•'}</i><span>${n[1].replace('My ','')}</span></button>`).join('')+(more.length?`<button data-v="__more" onclick="moreSheet()"><i aria-hidden="true">⋯</i><span>More</span></button>`:'');
+  $('#bottomNav').innerHTML=main.map(n=>`<button data-v="${n[0]}" onclick="go('${n[0]}')"><span>${n[1]}</span></button>`).join('')+(more.length?`<button data-v="__more" onclick="moreSheet()"><span>More</span></button>`:'');
 }
 function moreSheet(){
   const items=navItems().slice(4);
-  openModal(`<h3>More</h3><div class="grid" style="gap:8px">${items.map(n=>`<button class="btn ghost" style="justify-content:flex-start;width:100%" onclick="closeModal();go('${n[0]}')"><i aria-hidden="true" style="font-style:normal;margin-right:8px">${NAVICON[n[0]]||'•'}</i>${n[1]}</button>`).join('')}</div>`);
+  openModal(`<h3>More</h3><div class="grid" style="gap:8px">${items.map(n=>`<button class="btn ghost" style="justify-content:flex-start;width:100%" onclick="closeModal();go('${n[0]}')">${n[1]}</button>`).join('')}</div>`);
 }
 function buildHeader(){
-  $('#tabs').innerHTML=navItems().map(n=>`<button data-v="${n[0]}" onclick="go('${n[0]}')" aria-current="false"><i aria-hidden="true">${NAVICON[n[0]]||''}</i> ${n[1]}</button>`).join('');buildBottom();
+  $('#tabs').innerHTML=navItems().map(n=>`<button data-v="${n[0]}" onclick="go('${n[0]}')" aria-current="false">${n[1]}</button>`).join('');buildBottom();
   $('#roleChip').innerHTML=session?`<span class="chip">${esc(roleLabel(session.role))}</span>`:'';
   $('#userArea').innerHTML=session?`<div class="userbox"><div class="avatar" aria-hidden="true">${esc(initials(session.display_name))}</div><span class="uname">${esc(session.display_name)}</span><button class="linkbtn" onclick="signOut()">Sign out</button></div>`:`<button class="btn sm" onclick="goAuth('signin')">Sign in</button>`;
 }
@@ -347,7 +346,7 @@ function go(id){
 let authTab='signin',signupRole='user',returnView=null;
 function goAuth(t){authTab=t||'signin';returnView=session?null:(NAV.guest.some(n=>n[0]===view)?view:'planner');go('signin')}
 function switchTab(w){authTab=w;const si=$('#tSignin'),su=$('#tSignup');if(!si)return;si.setAttribute('aria-selected',w==='signin');su.setAttribute('aria-selected',w==='signup');$('#fSignin').classList.toggle('on',w==='signin');$('#fSignup').classList.toggle('on',w==='signup');(w==='signin'?$('#siU'):$('#suN')).focus()}
-function pickRole(r){signupRole=r;document.querySelectorAll('.rcard').forEach(c=>c.setAttribute('aria-pressed',c.dataset.role===r));$('#schFields').classList.toggle('open',r==='scholar');$('#madBox').classList.toggle('open',r==='madrasah');if(r==='madrasah')setTimeout(()=>$('#suC').focus(),50)}
+function pickRole(r){signupRole=r;document.querySelectorAll('.rcard').forEach(c=>c.setAttribute('aria-pressed',c.dataset.role===r));$('#schFields').classList.toggle('open',r==='scholar');$('#madBox').classList.toggle('open',r==='madrasah');$('#indGender').classList.toggle('open',r!=='madrasah');if(r==='madrasah')setTimeout(()=>$('#suC').focus(),50)}
 function ferr(id,m){const e=$('#'+id);e.textContent=m||'';e.classList.toggle('show',!!m)}
 function busy(b,on,t){b.disabled=on;b.innerHTML=on?'<span class="spin"></span>':t}
 async function doSignin(ev){
@@ -363,8 +362,9 @@ async function doSignup(ev){
   const u=$('#suU').value.trim(),p=$('#suP').value;let bad=false;
   if(!/^[a-zA-Z0-9_]{3,20}$/.test(u)){ferr('suUE','3–20 characters: letters, numbers, underscore');bad=true}
   if(p.length<8){ferr('suPE','At least 8 characters');bad=true}
-  let extra={};
+  let extra={};ferr('suGE','');
   if(signupRole==='madrasah'){try{extra=madSignupPayload()}catch(e){ferr('suCE',e.message);bad=true}}
+  else{const g=document.querySelector('input[name=igen]:checked');if(!g){ferr('suGE','Please choose your gender');bad=true}else extra={p_gender:g.value}}
   if(bad)return;
   const b=$('#suB2');busy(b,true);
   try{
@@ -372,7 +372,7 @@ async function doSignup(ev){
     const msg=session.role==='admin'?'Account created — you are the Super Admin':session.role==='scholar'?'Application sent — an admin will review it':session.role==='teacher'?'Welcome, teacher — you can start logging sessions':session.role==='madrasah_admin'?'Welcome — your madrasah dashboard is ready':'Account created — welcome!';
     await afterAuth(msg);burst();
     if(session.student_code)setTimeout(showCodeModal,350);
-  }catch(e){ferr(/username/i.test(e.message)?'suUE':/code|madrasah/i.test(e.message)?'suCE':'suPE',e.message)}
+  }catch(e){ferr(/username/i.test(e.message)?'suUE':/gender/i.test(e.message)?'suGE':/code|madrasah/i.test(e.message)?'suCE':'suPE',e.message)}
   busy(b,false,'Create account');
 }
 async function afterAuth(msg){
@@ -381,6 +381,7 @@ async function afterAuth(msg){
   buildHeader();await loadPlan();
   if(!plan&&local&&session.role==='user'){plan=local;savePlan()}
   toast(msg);go(defaultView());
+  if(typeof ensureGender==='function')ensureGender();ping();if(typeof scheduleReminder==='function')scheduleReminder();
 }
 function signOut(silent){
   if(session)sb.rpc('app_logout',{p_token:session.token}).then(()=>{},()=>{});
@@ -408,89 +409,48 @@ function project(p){
 function streak(log){log=log||{};let n=0;const d=new Date();if(!(log[keyOf(d)]>0))d.setDate(d.getDate()-1);while(log[keyOf(d)]>0){n++;d.setDate(d.getDate()-1)}return n}
 const ring=(pct,label,s)=>`<div class="ring" data-pct="${pct}" style="--s:${s||140}px"><div><b>${pct}%</b><small>${label||'complete'}</small></div></div>`;
 
-let pStepN=1;
-function pStep(n){pStepN=n;[1,2,3].forEach(i=>{$('#ps'+i).classList.toggle('on',i===n);$('#pd'+i).classList.toggle('on',i<=n)})}
-function viewPlanner(){
-  const p=plan||{goalSel:'604',total:604,done:0,pace:1,daysWeek:6,revision:.3,start:keyOf(new Date())};
+let pT=null;
+async function viewPlanner(){
+  const student=session&&session.role==='user';let verified=0;
+  if(student){try{verified=(await api('student_dashboard',{p_token:tk()})).pages}catch(e){}}
+  const p=Object.assign({goalSel:'604',total:604,pace:1,daysWeek:6,revision:.3},plan||{});
+  if(student&&session.target_pages){p.goalSel='custom';p.total=session.target_pages}
+  p.done=student?verified:(+p.done||0);
   const opt=(v,t)=>`<option value="${v}" ${String(p.goalSel)===v?'selected':''}>${t}</option>`;
-  $('#main').innerHTML=`
-  ${session?'':`<div class="panel st" style="padding:14px 18px"><span class="hint" style="margin:0">Planning as a guest — <button class="linkbtn" onclick="goAuth('signup')">create an account</button> to save your plan, log daily progress and request certification.</span></div>`}
-  <div class="panel st"><div class="steps"><i id="pd1" class="on"></i><i id="pd2"></i><i id="pd3"></i></div>
-   <div class="stepcard on" id="ps1"><div class="slabel">Step 1 of 3</div><div class="sq">What are you memorizing?</div>
-    <div class="field"><label>Goal</label><select id="goal" onchange="$('#cw').style.display=this.value==='custom'?'block':'none'">${opt('604',"Whole Qur'an (604 pages)")}${opt('20','1 Juz (≈20 pages)')}${opt('100','5 Juz (≈100 pages)')}${opt('200','10 Juz (≈200 pages)')}${opt('custom','Custom page count')}</select></div>
-    <div class="field" id="cw" style="display:${p.goalSel==='custom'?'block':'none'}"><label>Custom pages</label><input id="cp" type="number" min="1" value="${p.total}"></div>
-    <div class="field"><label>Pages already memorized</label><input id="progress" type="number" min="0" value="${p.done}"></div>
-    <div class="row between"><span></span><button class="btn" onclick="pStep(2)">Next →</button></div></div>
-   <div class="stepcard" id="ps2"><div class="slabel">Step 2 of 3</div><div class="sq">What's your pace?</div>
-    <div class="grid g2"><div class="field"><label>New pages per day</label><input id="pace" type="number" min="0.1" step="0.1" value="${p.pace}"><div class="hint">0.25 relaxed · 1 steady · 2 intensive</div></div>
-    <div class="field"><label>Active days per week</label><input id="dw" type="number" min="1" max="7" value="${p.daysWeek}"></div></div>
-    <div class="field"><label>Revision (murāja'ah) load</label><select id="rev"><option value="0.1" ${p.revision==.1?'selected':''}>Light — 10% of time</option><option value="0.3" ${p.revision==.3?'selected':''}>Standard — 30% of time</option><option value="0.5" ${p.revision==.5?'selected':''}>Heavy — 50% of time</option></select></div>
-    <div class="field"><label>Start date</label><input id="sd" type="date" value="${p.start||keyOf(new Date())}"></div>
-    <div class="row between"><button class="btn ghost" onclick="pStep(1)">← Back</button><button class="btn" onclick="pCalc()">Calculate</button></div></div>
-   <div class="stepcard" id="ps3"><div class="slabel">Step 3 of 3</div><div class="sq">Your projection</div><div id="pRes"></div>
-    <div class="row between" style="margin-top:18px"><button class="btn ghost" onclick="pStep(2)">← Adjust</button>${session&&session.role==='user'?'<button class="btn" onclick="go(\'home\')">Open dashboard</button>':''}</div></div>
-  </div>`;
-  animate();pStep(1);if(plan)pCalc(true);
+  $('#main').innerHTML=`<div class="grid g2" style="align-items:start">
+  <div class="panel st"><h2>Calculator</h2><p class="hint">Estimate when you will finish memorizing.</p>
+   <div class="field" style="margin-top:14px"><label>Goal</label><select id="goal" ${student?'disabled':''} onchange="$('#cw').style.display=this.value==='custom'?'block':'none';pCalc()">${opt('604','Whole Qur’an (604 pages)')}${opt('20','Juz 30 (about 20 pages)')}${opt('100','5 Juz (about 100 pages)')}${opt('200','10 Juz (about 200 pages)')}${opt('custom','Custom number of pages')}</select></div>
+   <div class="field" id="cw" style="display:${p.goalSel==='custom'?'block':'none'}"><label>Pages in goal</label><input id="cp" type="number" min="1" max="604" value="${p.total}" ${student?'readonly':''} oninput="pCalc()"></div>
+   <div class="field"><label>Memorized so far</label><input id="progress" type="number" min="0" value="${p.done}" ${student?'readonly':''} oninput="pCalc()">${student?'<div class="hint">Recorded by your scholar after each session. You cannot edit it.</div>':''}</div>
+   <div class="grid g2"><div class="field"><label>New pages per day</label><input id="pace" type="number" min="0.1" step="0.1" value="${p.pace}" oninput="pCalc()"></div><div class="field"><label>Days per week</label><input id="dw" type="number" min="1" max="7" value="${p.daysWeek}" oninput="pCalc()"></div></div>
+   <div class="field"><label>Share of time spent on revision</label><select id="rev" onchange="pCalc()"><option value="0.1" ${p.revision==.1?'selected':''}>Light (10%)</option><option value="0.3" ${p.revision==.3?'selected':''}>Standard (30%)</option><option value="0.5" ${p.revision==.5?'selected':''}>Heavy (50%)</option></select></div>
+   ${session?'':'<p class="hint"><button class="linkbtn" style="padding:0" onclick="goAuth(\'signup\')">Create an account</button> to receive progress from your scholar and request certification.</p>'}</div>
+  <div class="panel st" id="pRes"></div></div>`;
+  animate();pCalc(true);
 }
-async function pCalc(quiet){
+function pCalc(quiet){
   const sel=$('#goal').value,total=sel==='custom'?+$('#cp').value:+sel;
-  const np={goalSel:sel,total,done:Math.max(0,+$('#progress').value||0),pace:+$('#pace').value,daysWeek:Math.min(7,Math.max(1,+$('#dw').value||1)),revision:+$('#rev').value,start:$('#sd').value||keyOf(new Date()),log:(plan&&plan.log)||{}};
-  if(!(total>0)||!(np.pace>0)){toast('Enter a valid goal and pace',true);return}
+  const np={goalSel:sel,total,done:Math.max(0,+$('#progress').value||0),pace:+$('#pace').value,daysWeek:Math.min(7,Math.max(1,+$('#dw').value||1)),revision:+$('#rev').value,start:keyOf(new Date())};
+  if(!(total>0)||!(np.pace>0)){$('#pRes').innerHTML='<h2>Projection</h2><p class="hint">Enter a goal and a daily pace.</p>';return}
   plan=np;const pr=project(plan);
-  $('#pRes').innerHTML=`<div class="row" style="gap:26px">${ring(pr.pct)}<div style="flex:1;min-width:220px">
-    <div style="font-family:Newsreader,serif;font-size:26px;color:var(--heading)">${pr.done?'Already complete 🎉':pr.finish.toLocaleDateString(undefined,{year:'numeric',month:'long',day:'numeric'})}</div>
-    <div class="hint">Projected completion date</div>
-    <div class="grid g3" style="margin-top:14px"><div class="stat"><b>${pr.rem.toFixed(0)}</b><span>pages left</span></div><div class="stat"><b>${pr.weeks}</b><span>weeks</span></div><div class="stat"><b>${pr.eff.toFixed(2)}</b><span>new pages/day</span></div></div></div></div>
-    <div class="row" style="margin-top:20px;padding-top:16px;border-top:1px dashed var(--line)"><label class="switch"><input type="checkbox" id="rem" onchange="toggleRem()"><span class="slider"></span></label><div><b style="font-size:13.5px">Daily reminder</b><div class="hint" id="remS">Browser notification while this tab is open.</div></div></div>
-    <p class="hint" style="margin-top:14px">${session?(session.role==='user'?'Saved to your account.':'Sign in as a student to save plans.'):'Sign up to save this plan.'}</p>`;
-  animate();pStep(3);if(!quiet)savePlan();
-}
-let remT=null;
-function toggleRem(){
-  const on=$('#rem').checked,s=$('#remS');
-  if(!on){clearInterval(remT);s.textContent='Reminder off.';return}
-  if(!('Notification' in window)){s.textContent='Notifications unsupported in this browser.';$('#rem').checked=false;return}
-  Notification.requestPermission().then(p=>{if(p==='granted'){clearInterval(remT);remT=setInterval(()=>{try{new Notification('Noor Hifz',{body:"Time for today's memorization session."})}catch(e){}},864e5);s.textContent='On — fires every 24h while this tab is open.';toast('Reminder on')}else{$('#rem').checked=false;s.textContent='Permission denied in browser settings.'}});
-}
-
-/* ---------- prayer times (Aladhan API) ---------- */
-const prayerForm=m=>`<h2>Prayer times</h2><p class="hint">${m||'Plan memorization around your prayers — the hour after Fajr is best.'}</p>
-  <div class="grid g2" style="margin-top:12px"><div><label>City</label><input id="lc" placeholder="e.g. Lagos"></div><div><label>Country</label><input id="lk" placeholder="e.g. Nigeria"></div></div>
-  <div class="row" style="margin-top:12px"><button class="btn sm" onclick="setLoc()">Save location</button><button class="btn sm ghost" onclick="geoLoc()">📍 Use my location</button></div>`;
-function setLoc(){const c=$('#lc').value.trim(),k=$('#lk').value.trim();if(!c||!k){toast('Enter city and country',true);return}localStorage.setItem('nh_loc',JSON.stringify({city:c,country:k}));loadPrayer()}
-function geoLoc(){if(!navigator.geolocation){toast('Location unavailable',true);return}navigator.geolocation.getCurrentPosition(p=>{localStorage.setItem('nh_loc',JSON.stringify({lat:p.coords.latitude,lon:p.coords.longitude}));loadPrayer()},()=>toast('Location permission denied',true))}
-async function loadPrayer(){
-  const box=$('#prayerBox');if(!box)return;
-  let loc=null;try{loc=JSON.parse(localStorage.getItem('nh_loc')||'null')}catch(e){}
-  if(!loc){box.innerHTML=prayerForm();return}
-  box.innerHTML=sk(1);
-  try{
-    const url=loc.lat!=null?`https://api.aladhan.com/v1/timings/${Math.floor(Date.now()/1e3)}?latitude=${loc.lat}&longitude=${loc.lon}&method=2`:`https://api.aladhan.com/v1/timingsByCity?city=${encodeURIComponent(loc.city)}&country=${encodeURIComponent(loc.country)}&method=2`;
-    const j=await (await fetch(url)).json();if(j.code!==200)throw 0;
-    const d=j.data,names=['Fajr','Dhuhr','Asr','Maghrib','Isha'],tz=d.meta.timezone;
-    const secs=names.map(n=>{const[h,m]=d.timings[n].slice(0,5).split(':').map(Number);return h*3600+m*60});
-    box.innerHTML=`<div class="row between"><div><h2>Prayer times</h2><p class="hint">${esc(d.date.hijri.day)} ${esc(d.date.hijri.month.en)} ${esc(d.date.hijri.year)} AH · ${esc(loc.city||'your location')}</p></div><button class="btn sm ghost" onclick="localStorage.removeItem('nh_loc');loadPrayer()">Change</button></div>
-    <div class="grid g4" style="margin:14px 0 6px;grid-template-columns:repeat(5,1fr)">${names.map((n,i)=>`<div class="stat" id="pt${i}" style="padding:10px;text-align:center"><span>${n}</span><b style="font-size:16px">${d.timings[n].slice(0,5)}</b></div>`).join('')}</div>
-    <p class="hint" id="nextP"></p>`;
-    const tick=()=>{const[h,m,s]=new Date().toLocaleTimeString('en-GB',{timeZone:tz,hour12:false}).split(':').map(Number),now=h*3600+m*60+s;let i=secs.findIndex(t=>t>now),df;if(i<0){i=0;df=secs[0]+86400-now}else df=secs[i]-now;
-      const el=$('#nextP');if(!el)return;el.innerHTML=`Next: <b>${names[i]}</b> in ${Math.floor(df/3600)}h ${String(Math.floor(df%3600/60)).padStart(2,'0')}m ${String(df%60).padStart(2,'0')}s`;
-      names.forEach((_,k)=>{const c=$('#pt'+k);if(c)c.style.borderColor=k===i?'var(--gold)':''})};
-    tick();timers.push(setInterval(tick,1000));
-  }catch(e){box.innerHTML=prayerForm('Could not load prayer times — check the city and country.')}
+  $('#pRes').innerHTML=`<h2>Projection</h2><div class="row" style="gap:22px;margin-top:12px">${ring(pr.pct)}<div style="flex:1;min-width:170px"><div style="font-family:Newsreader,serif;font-size:24px;color:var(--heading);line-height:1.2">${pr.done?'Goal complete':pr.finish.toLocaleDateString(undefined,{year:'numeric',month:'long',day:'numeric'})}</div><div class="hint">Estimated completion</div></div></div>
+   <div class="grid g3" style="margin-top:16px"><div class="stat"><b>${pr.rem.toFixed(0)}</b><span>Pages remaining</span></div><div class="stat"><b>${pr.weeks}</b><span>Weeks</span></div><div class="stat"><b>${pr.eff.toFixed(2)}</b><span>New pages per day</span></div></div>`;
+  animate();if(!quiet){clearTimeout(pT);pT=setTimeout(savePlan,700)}
 }
 
 /* ---------- scholars directory ---------- */
 let scholarsData=[];
 async function viewScholars(){
-  $('#main').innerHTML=`<div class="panel st"><h2>Find a scholar</h2><p class="hint">Every scholar here has been reviewed and approved by an admin.</p><input id="sq" style="margin-top:14px" placeholder="Search by name, specialty or ijazah…" oninput="filterSch()"></div><div class="grid g2" id="sg">${sk(2)}</div>`;
-  try{scholarsData=await api('list_scholars');filterSch()}catch(e){$('#sg').innerHTML=`<div class="panel empty">${esc(e.message)}</div>`}
+  $('#main').innerHTML=`<div class="panel st"><h2>Scholars</h2><p class="hint">Scholars are matched by gender: you will see scholars of your own gender.</p><input id="sq" style="margin-top:14px" placeholder="Search by name, specialty or ijazah" oninput="filterSch()" aria-label="Search scholars"></div><div class="grid g2" id="sg">${sk(2)}</div>`;
+  if(!session){$('#sg').innerHTML='<div class="panel empty" style="grid-column:1/-1">Sign in to see scholars available to you.<br><button class="btn sm" style="margin-top:10px" onclick="goAuth(\'signin\')">Sign in</button></div>';return}
+  try{scholarsData=await api('list_scholars',{p_token:tk()});filterSch()}catch(e){$('#sg').innerHTML=`<div class="panel empty">${esc(e.message)}</div>`}
 }
 function filterSch(){
   const q=($('#sq').value||'').toLowerCase(),l=scholarsData.filter(s=>(s.display_name+' '+(s.specialties||[]).join(' ')+' '+(s.ijazah||'')).toLowerCase().includes(q));
   $('#sg').innerHTML=l.length?l.map((s,i)=>`<div class="scard st"><div class="row"><div class="avatar">${esc(initials(s.display_name))}</div><div><h3 style="font-size:16px">${esc(s.display_name)}</h3><div class="meta">${esc(s.ijazah||'Approved scholar')}</div></div></div>
     ${s.bio?`<p class="hint" style="margin:2px 0">${esc(s.bio)}</p>`:''}<div>${(s.specialties||[]).map(t=>`<span class="tag">${esc(t)}</span>`).join('')}</div>
-    <div class="row between" style="margin-top:auto"><span class="meta">✓ ${s.certified} certified · ${s.active} in queue</span>${role()==='user'?`<button class="btn sm" onclick="reqModal('${s.id}')">Request session</button>`:role()==='guest'?`<button class="btn sm ghost" onclick="goAuth('signup')">Sign up to request</button>`:''}</div></div>`).join(''):
-    `<div class="panel empty" style="grid-column:1/-1"><span class="big">🎓</span>${scholarsData.length?'No scholars match your search.':'No approved scholars yet.'}${role()==='guest'&&!scholarsData.length?'<br><button class="btn sm" style="margin-top:10px" onclick="goAuth(\'signup\')">Join as a scholar</button>':''}</div>`;
+    <div class="row between" style="margin-top:auto"><span class="meta"><span class="dot ${s.online?'on':''}"></span>${s.online?'Online now':'Offline'} · ${s.certified} certified</span>${role()==='user'?`<button class="btn sm" onclick="reqModal('${s.id}')">Request session</button>`:role()==='guest'?`<button class="btn sm ghost" onclick="goAuth('signup')">Sign up to request</button>`:''}</div></div>`).join(''):
+    `<div class="panel empty" style="grid-column:1/-1">${scholarsData.length?'No scholars match your search.':'No approved scholars yet.'}${role()==='guest'&&!scholarsData.length?'<br><button class="btn sm" style="margin-top:10px" onclick="goAuth(\'signup\')">Join as a scholar</button>':''}</div>`;
   animate();
 }
 async function reqModal(id){
@@ -512,47 +472,24 @@ async function sendReq(id){
 
 /* ---------- student: dashboard & requests ---------- */
 function tracker(st){const S=[['pending','Sent'],['review','In review'],['corrections','Corrections'],['certified','Certified']],i=S.findIndex(s=>s[0]===st);return`<div class="track">${S.map((s,k)=>`<div class="tk ${k<i?'done':''} ${k===i?'now':''}"><i></i>${s[1]}</div>`).join('')}</div>`}
-function certHTML(r){const link=location.origin+location.pathname+'?verify='+r.cert_code;return`<div class="cert" id="cert-${r.id}"><div class="seal">✦</div><div class="cm">CERTIFICATE OF SAMI'</div><p>This certifies that</p><h2>${esc(r.requester_name)}</h2><p>recited <b>${esc(r.portion)}</b> before</p><h3>${esc(r.scholar)}</h3><p>and was certified after review · ${fmt(r.updated_at)}</p><div class="code">Verification code: ${esc(r.cert_code)}</div><div class="certbtns noprint"><button class="btn sm ghost" onclick="printCert('${r.id}')">Print / save PDF</button><button class="btn sm ghost" onclick="copyText('${esc(link)}')">Copy verify link</button></div></div>`}
+function certHTML(r){const link=location.origin+location.pathname+'?verify='+r.cert_code;return`<div class="cert" id="cert-${r.id}"><div class="seal">NH</div><div class="cm">CERTIFICATE OF SAMI'</div><p>This certifies that</p><h2>${esc(r.requester_name)}</h2><p>recited <b>${esc(r.portion)}</b> before</p><h3>${esc(r.scholar)}</h3><p>and was certified after review · ${fmt(r.updated_at)}</p><div class="code">Verification code: ${esc(r.cert_code)}</div><div class="certbtns noprint"><button class="btn sm ghost" onclick="printCert('${r.id}')">Print / save PDF</button><button class="btn sm ghost" onclick="copyText('${esc(link)}')">Copy verify link</button></div></div>`}
 function printCert(id){$('#printarea').innerHTML=$('#cert-'+id).outerHTML;window.print()}
 const reqCard=r=>`<div class="card"><div class="row between"><div><b>${esc(r.portion)}</b><div class="meta">with ${esc(r.scholar||'—')} · sent ${fmt(r.created_at)}</div></div>${badge(r.status)}</div>${tracker(r.status)}${r.note?`<div class="meta" style="margin-top:8px">Your note: ${esc(r.note)}</div>`:''}${r.feedback?`<div class="fb"><b>Scholar feedback:</b> ${esc(r.feedback)}</div>`:''}${r.status==='certified'?certHTML(r):''}</div>`;
 async function viewRequests(){
   $('#main').innerHTML=`<div class="panel st"><h2>My requests</h2><p class="hint">Track each recitation from submission to certificate.</p></div><div id="rl">${sk(2)}</div>`;
-  try{const d=await api('list_my_requests',{p_token:tk()});$('#rl').innerHTML=d.length?d.map(reqCard).join(''):`<div class="panel empty"><span class="big">📜</span>No requests yet.<br><button class="btn sm" style="margin-top:10px" onclick="go('scholars')">Find a scholar</button></div>`;animate()}
+  try{const d=await api('list_my_requests',{p_token:tk()});$('#rl').innerHTML=d.length?d.map(reqCard).join(''):`<div class="panel empty">No requests yet.<br><button class="btn sm" style="margin-top:10px" onclick="go('scholars')">Find a scholar</button></div>`;animate()}
   catch(e){$('#rl').innerHTML=`<div class="panel empty">${esc(e.message)}</div>`}
 }
-async function viewHome(){
-  const h=new Date().getHours(),g=h<12?'Good morning':h<18?'Good afternoon':'Good evening';
-  let top;
-  if(plan){const p=project(plan),s=streak(plan.log),t=(plan.log||{})[keyOf(new Date())]||0;
-    top=`<div class="panel st"><div class="row" style="gap:26px">${ring(p.pct)}<div style="flex:1;min-width:230px"><h2 style="font-size:22px">${g}, ${esc(session.display_name)}</h2>
-     <p class="hint">${p.done?'You have completed your goal — masha’Allah!':`On track to finish <b>${p.finish.toLocaleDateString(undefined,{year:'numeric',month:'long',day:'numeric'})}</b>`}</p>
-     <div class="grid g3" style="margin-top:14px"><div class="stat"><b data-count="${Math.round(plan.done)}">0</b><span>pages memorized</span></div><div class="stat"><b data-count="${Math.round(p.rem)}">0</b><span>pages left</span></div><div class="stat"><b class="streak"><span class="flame">🔥</span><span data-count="${s}">0</span></b><span>day streak</span></div></div></div></div>
-     <div class="row" style="margin-top:18px;padding-top:16px;border-top:1px dashed var(--line)"><div style="flex:1;min-width:160px"><label>Log today's new pages ${t?`(already ${t})`:''}</label><input id="lg" type="number" min="0.25" step="0.25" value="${plan.pace}"></div><button class="btn" style="align-self:flex-end" onclick="logPages()">＋ Log progress</button><button class="btn ghost" style="align-self:flex-end" onclick="go('planner')">Edit plan</button></div></div>`}
-  else top=`<div class="panel st empty"><span class="big">🌙</span><h2 style="margin-bottom:6px">${g}, ${esc(session.display_name)}</h2>Create your memorization plan to see your finish date, streak and progress here.<br><button class="btn" style="margin-top:14px" onclick="go('planner')">Create my plan</button></div>`;
-  $('#main').innerHTML=top+`<div class="panel st">${juzGrid()}</div><div class="panel st" id="prayerBox">${sk(1)}</div><div class="panel st"><div class="row between"><h2>Recent requests</h2><button class="btn sm ghost" onclick="go('requests')">View all</button></div><div id="hr">${sk(1)}</div></div>`;
-  animate();loadPrayer();
-  try{const d=await api('list_my_requests',{p_token:tk()});$('#hr').innerHTML=d.length?d.slice(0,3).map(r=>`<div class="row between" style="padding:10px 0;border-bottom:1px solid var(--line-soft)"><div><b style="font-size:13.5px">${esc(r.portion)}</b><div class="meta">with ${esc(r.scholar||'—')}</div></div>${badge(r.status)}</div>`).join(''):'<p class="hint">Nothing yet — <button class="linkbtn" onclick="go(\'scholars\')">request your first session</button>.</p>'}catch(e){}
-}
-function juzGrid(){
-  const pagesPerJuz=plan?plan.total/30:20.1,done=plan?plan.done:0,certJuz=new Set();
-  return `<h2>Juz progress</h2><p class="hint">Each square is one juz of the mushaf, filled as you log pages.</p>
-  <div class="grid" style="grid-template-columns:repeat(10,1fr);gap:8px;margin-top:14px" role="list" aria-label="Progress by juz">${Array.from({length:30},(_,i)=>{
-    const start=i*pagesPerJuz,pct=Math.max(0,Math.min(1,(done-start)/pagesPerJuz)),state=pct>=1?'certified':pct>0?'learning':'none';
-    const bg=state==='certified'?'var(--c-certified)':state==='learning'?'color-mix(in srgb,var(--gold) '+Math.round(pct*100)+'%,var(--line-soft))':'var(--line-soft)';
-    return `<div role="listitem" title="Juz ${i+1} — ${state==='certified'?'memorized':state==='learning'?Math.round(pct*100)+'% underway':'not started'}" style="aspect-ratio:1;border-radius:6px;background:${bg};display:grid;place-items:center;font-size:10.5px;font-weight:700;color:${state==='none'?'var(--ink-soft)':'#fff'};transition:background .6s var(--ease)">${i+1}</div>`;
-  }).join('')}</div>`;
-}
-async function logPages(){
-  const n=+$('#lg').value;if(!(n>0)){toast('Enter pages memorized',true);return}
-  plan.done=Math.min(plan.total,plan.done+n);plan.log=plan.log||{};const k=keyOf(new Date());plan.log[k]=(plan.log[k]||0)+n;
-  await savePlan();burst();toast('Logged '+n+' page'+(n===1?'':'s')+' — keep going!');viewHome();
+function juzGrid(pages){
+  const per=604/30;
+  return `<div class="juzgrid" role="list" aria-label="Memorized, by juz (approximate)">${Array.from({length:30},(_,i)=>{const f=Math.max(0,Math.min(1,(pages-i*per)/per));return `<div role="listitem" class="jz ${f>=1?'full':''}" style="--f:${Math.round(f*100)}%" title="Juz ${i+1}: ${Math.round(f*100)}%">${i+1}</div>`}).join('')}</div>`;
 }
 
 /* ---------- scholar queue ---------- */
 let qData=[],qF='all';
 async function viewQueue(){
   if(session.role==='scholar'&&session.scholar_status!=='approved'){
-    $('#main').innerHTML=`<div class="panel st empty"><span class="big">⏳</span><h2 style="margin-bottom:6px">${session.scholar_status==='rejected'?'Application not approved':'Application under review'}</h2>${session.scholar_status==='rejected'?'An admin did not approve this scholar application. Contact the site admin for details.':'An admin is reviewing your scholar application. You will be listed in the directory and can start receiving requests as soon as you are approved.'}<br><button class="btn sm ghost" style="margin-top:12px" onclick="refreshMe()">Check status</button></div>`;return}
+    $('#main').innerHTML=`<div class="panel st empty"><h2 style="margin-bottom:6px">${session.scholar_status==='rejected'?'Application not approved':'Application under review'}</h2>${session.scholar_status==='rejected'?'An admin did not approve this scholar application. Contact the site admin for details.':'An admin is reviewing your scholar application. You will be listed in the directory and can start receiving requests as soon as you are approved.'}<br><button class="btn sm ghost" style="margin-top:12px" onclick="refreshMe()">Check status</button></div>`;return}
   $('#main').innerHTML=`<div id="qs">${sk(1)}</div><div id="ql">${sk(2)}</div>`;
   try{qData=await api('scholar_list_requests',{p_token:tk()});renderQueue()}catch(e){$('#ql').innerHTML=`<div class="panel empty">${esc(e.message)}</div>`}
 }
@@ -563,7 +500,7 @@ function renderQueue(){
   const F=[['all','All'],['pending','Pending'],['review','In review'],['corrections','Corrections'],['certified','Certified']];
   const l=qData.filter(r=>qF==='all'||r.status===qF);
   $('#ql').innerHTML=`<div class="chips">${F.map(f=>`<button class="${qF===f[0]?'on':''}" onclick="qF='${f[0]}';renderQueue()">${f[1]}</button>`).join('')}</div>`+(l.length?l.map(r=>`<div class="card"><div class="row between"><div><b>${esc(r.portion)}</b><div class="meta">${esc(r.requester_name)} · ${fmt(r.created_at)}${r.note?' · '+esc(r.note):''}</div></div>${badge(r.status)}</div>
-    ${r.status==='certified'?`<div class="meta" style="margin-top:8px">Certificate code: <b>${esc(r.cert_code)}</b></div>${r.feedback?`<div class="fb">${esc(r.feedback)}</div>`:''}`:`<textarea id="fb-${r.id}" style="margin-top:12px" placeholder="Feedback or corrections for the reader…">${esc(r.feedback||'')}</textarea><div class="row" style="margin-top:10px">${r.status!=='review'?`<button class="btn sm ghost" onclick="qAct('${r.id}','review')">Start review</button>`:''}<button class="btn sm ghost" onclick="qAct('${r.id}','corrections')">Needs corrections</button><button class="btn sm" onclick="qAct('${r.id}','certified')">✓ Certify</button></div>`}</div>`).join(''):'<div class="panel empty"><span class="big">📭</span>Nothing here yet.</div>');
+    ${r.status==='certified'?`<div class="meta" style="margin-top:8px">Certificate code: <b>${esc(r.cert_code)}</b></div>${r.feedback?`<div class="fb">${esc(r.feedback)}</div>`:''}`:`<textarea id="fb-${r.id}" style="margin-top:12px" placeholder="Feedback or corrections for the reader…">${esc(r.feedback||'')}</textarea><div class="row" style="margin-top:10px">${r.status!=='review'?`<button class="btn sm ghost" onclick="qAct('${r.id}','review')">Start review</button>`:''}<button class="btn sm ghost" onclick="qAct('${r.id}','corrections')">Needs corrections</button><button class="btn sm ghost" onclick="PRECODE='${r.code||''}';go('tdash')">Record session</button><button class="btn sm" onclick="qAct('${r.id}','certified')">Certify</button></div>`}</div>`).join(''):'<div class="panel empty">Nothing here yet.</div>');
   animate();
 }
 async function qAct(id,st){
@@ -588,10 +525,10 @@ async function viewOverview(){
   try{
     const [s,u,trend]=await Promise.all([api('admin_stats',{p_token:tk()}),api('admin_list_users',{p_token:tk()}),api('admin_signups_trend',{p_token:tk()})]);
     const r=s.requests||{},tot=Object.values(r).reduce((a,b)=>a+b,0)||1,pend=u.filter(x=>x.role==='scholar'&&x.scholar_status==='pending'),susp=u.filter(x=>x.suspended).length;
-    $('#main').innerHTML=`<div class="grid g4 st">${[['users','👥 Total users'],['students','📖 Students'],['scholars','🎓 Approved scholars'],['pending_scholars','⏳ Applications']].map(([k,l])=>`<div class="stat"><b data-count="${s[k]}">0</b><span>${l}</span></div>`).join('')}</div>
+    $('#main').innerHTML=`<div class="grid g4 st">${[['users','Total users'],['students','Students'],['scholars','Approved scholars'],['pending_scholars','Applications']].map(([k,l])=>`<div class="stat"><b data-count="${s[k]}">0</b><span>${l}</span></div>`).join('')}</div>
     <div class="grid g2" style="margin-top:16px">
     <div class="panel st"><h2>Certification pipeline</h2><div style="margin-top:14px">${[['pending','Pending'],['review','In review'],['corrections','Corrections'],['certified','Certified']].map(([k,l])=>`<div style="margin-bottom:12px"><div class="row between meta"><span>${l}</span><b>${r[k]||0}</b></div><div class="bar"><i data-w="${Math.round((r[k]||0)/tot*100)}%"></i></div></div>`).join('')}</div></div>
-    <div class="panel st"><div class="row between"><h2>New signups</h2><span class="meta">last 14 days</span></div><div style="margin-top:16px">${sparkline(trend)}</div>${susp?`<p class="hint" style="margin-top:10px">⚠ ${susp} account${susp===1?'':'s'} currently suspended</p>`:''}</div></div>
+    <div class="panel st"><div class="row between"><h2>New signups</h2><span class="meta">last 14 days</span></div><div style="margin-top:16px">${sparkline(trend)}</div>${susp?`<p class="hint" style="margin-top:10px">${susp} account${susp===1?'':'s'} currently suspended</p>`:''}</div></div>
     <div class="panel st"><h2>Scholar applications</h2>${pend.length?pend.map((x,i)=>`<div class="row between" style="padding:12px 0;border-bottom:1px solid var(--line-soft)" style="--i:${i}"><div><b>${esc(x.display_name)}</b> <span class="meta">@${esc(x.username)}</span><div class="meta">${esc(x.ijazah||'No ijazah listed')}</div></div><div class="row"><button class="btn sm" onclick="setSch('${x.id}','approved')">Approve</button><button class="btn sm ghost" onclick="setSch('${x.id}','rejected')">Reject</button></div></div>`).join(''):'<p class="hint">No applications waiting.</p>'}</div>`;
     animate();
   }catch(e){$('#main').innerHTML=`<div class="panel empty">${esc(e.message)}</div>`}
@@ -633,9 +570,9 @@ function renderAllReq(){
   const q=($('#arq').value||'').toLowerCase();
   const l=reqData.filter(r=>rFilter==='all'||r.status===rFilter).filter(r=>(r.requester_name+r.scholar+r.portion).toLowerCase().includes(q));
   $('#ar').innerHTML=`<div class="chips">${F.map(f=>`<button class="${rFilter===f[0]?'on':''}" onclick="rFilter='${f[0]}';renderAllReq()">${f[1]}</button>`).join('')}</div>`+
-    (l.length?l.map(r=>`<div class="card"><div class="row between"><div><b>${esc(r.portion)}</b><div class="meta">${esc(r.requester_name)} → ${esc(r.scholar||'—')} · ${fmt(r.created_at)}</div></div>${badge(r.status)}</div>
+    (l.length?l.map(r=>`<div class="card"><div class="row between"><div><b>${esc(r.portion)}</b><div class="meta">${esc(r.requester_name)} ${esc(r.scholar||'—')} · ${fmt(r.created_at)}</div></div>${badge(r.status)}</div>
     ${r.cert_code?`<div class="meta" style="margin-top:6px">Certificate: <b>${esc(r.cert_code)}</b></div>`:''}
-    <div class="row" style="margin-top:10px"><select aria-label="Force status" id="fs-${r.id}">${['pending','review','corrections','certified'].map(s=>`<option value="${s}" ${r.status===s?'selected':''}>${badgeLabel(s)}</option>`).join('')}</select><button class="btn sm ghost" onclick="forceStatus('${r.id}')">Apply</button><button class="btn sm danger" onclick="delReqPrompt('${r.id}')">Delete</button></div></div>`).join(''):'<div class="panel empty"><span class="big">📭</span>No requests match.</div>');
+    <div class="row" style="margin-top:10px"><select aria-label="Force status" id="fs-${r.id}">${['pending','review','corrections','certified'].map(s=>`<option value="${s}" ${r.status===s?'selected':''}>${badgeLabel(s)}</option>`).join('')}</select><button class="btn sm ghost" onclick="forceStatus('${r.id}')">Apply</button><button class="btn sm danger" onclick="delReqPrompt('${r.id}')">Delete</button></div></div>`).join(''):'<div class="panel empty">No requests match.</div>');
   animate();
 }
 async function forceStatus(id){try{await api('admin_force_status',{p_token:tk(),p_request_id:id,p_status:$('#fs-'+id).value});toast('Status updated');reqData=await api('admin_list_requests',{p_token:tk()});renderAllReq()}catch(e){toast(e.message,true)}}
@@ -644,9 +581,9 @@ async function delReq(id){try{await api('admin_delete_request',{p_token:tk(),p_r
 
 async function viewAudit(){
   $('#main').innerHTML=`<div class="panel st"><h2>Audit log</h2><p class="hint">Recent admin actions — role changes, suspensions, scholar approvals, manual status overrides.</p></div><div id="au">${sk(3)}</div>`;
-  const L={role_change:'🔁 Role changed',suspend:'⛔ Suspended',reinstate:'✅ Reinstated',scholar_status:'🎓 Scholar status set',force_status:'⚙️ Status forced',delete_request:'🗑️ Request deleted',madrasah_create:'🕌 Madrasah created',madrasah_update:'🕌 Madrasah edited',madrasah_deactivate:'⏸ Madrasah deactivated',madrasah_activate:'▶ Madrasah reactivated',code_regen:'🔑 Join code regenerated',delete_session:'🗑️ Session deleted'};
+  const L={role_change:'Role changed',suspend:'Suspended',reinstate:'Reinstated',scholar_status:'Scholar status set',force_status:'Status forced',delete_request:'Request deleted',madrasah_create:'Madrasah created',madrasah_update:'Madrasah edited',madrasah_deactivate:'Madrasah deactivated',madrasah_activate:'▶ Madrasah reactivated',code_regen:'Join code regenerated',delete_session:'Session deleted'};
   try{const d=await api('admin_list_audit',{p_token:tk(),p_limit:80});
-    $('#au').innerHTML=d.length?`<div class="panel"><div class="tblwrap"><table class="tbl"><tr><th>Action</th><th>By</th><th>Target</th><th>Detail</th><th>When</th></tr>${d.map(l=>`<tr><td>${L[l.action]||esc(l.action)}</td><td>${esc(l.actor||'—')}</td><td>${esc(l.target||'—')}</td><td class="meta">${esc(l.detail||'')}</td><td class="meta">${fmt(l.created_at)}</td></tr>`).join('')}</table></div></div>`:'<div class="panel empty"><span class="big">🗒️</span>No admin actions logged yet.</div>';
+    $('#au').innerHTML=d.length?`<div class="panel"><div class="tblwrap"><table class="tbl"><tr><th>Action</th><th>By</th><th>Target</th><th>Detail</th><th>When</th></tr>${d.map(l=>`<tr><td>${L[l.action]||esc(l.action)}</td><td>${esc(l.actor||'—')}</td><td>${esc(l.target||'—')}</td><td class="meta">${esc(l.detail||'')}</td><td class="meta">${fmt(l.created_at)}</td></tr>`).join('')}</table></div></div>`:'<div class="panel empty">No admin actions logged yet.</div>';
     animate();
   }catch(e){$('#au').innerHTML=`<div class="panel empty">${esc(e.message)}</div>`}
 }
@@ -659,7 +596,7 @@ function viewVerify(){
 async function runVerify(){
   const c=$('#vc').value.trim();if(!c)return;$('#vr').innerHTML=sk(1);
   try{const r=await api('verify_certificate',{p_code:c});
-    $('#vr').innerHTML=r.valid?`<div class="panel" style="border-color:var(--c-certified);animation:pop .4s var(--ease)"><div class="row"><span style="font-size:30px">✅</span><div><h2 style="color:var(--c-certified)">Valid certificate</h2><p class="hint" style="margin:0">Issued ${fmt(r.issued)}</p></div></div><div class="grid g3" style="margin-top:14px"><div class="stat"><span>Awarded to</span><b style="font-size:17px">${esc(r.holder)}</b></div><div class="stat"><span>Portion</span><b style="font-size:17px">${esc(r.portion)}</b></div><div class="stat"><span>Certified by</span><b style="font-size:17px">${esc(r.scholar)}</b></div></div></div>`:`<div class="panel" style="border-color:var(--coral);animation:shake .4s"><div class="row"><span style="font-size:30px">❌</span><div><h2 style="color:var(--coral)">Not found</h2><p class="hint" style="margin:0">No certificate matches that code. Check for typos.</p></div></div></div>`}
+    $('#vr').innerHTML=r.valid?`<div class="panel" style="border-color:var(--c-certified);animation:pop .4s var(--ease)"><div class="row"><span style="font-size:30px"></span><div><h2 style="color:var(--c-certified)">Valid certificate</h2><p class="hint" style="margin:0">Issued ${fmt(r.issued)}</p></div></div><div class="grid g3" style="margin-top:14px"><div class="stat"><span>Awarded to</span><b style="font-size:17px">${esc(r.holder)}</b></div><div class="stat"><span>Portion</span><b style="font-size:17px">${esc(r.portion)}</b></div><div class="stat"><span>Certified by</span><b style="font-size:17px">${esc(r.scholar)}</b></div></div></div>`:`<div class="panel" style="border-color:var(--coral);animation:shake .4s"><div class="row"><span style="font-size:30px"></span><div><h2 style="color:var(--coral)">Not found</h2><p class="hint" style="margin:0">No certificate matches that code. Check for typos.</p></div></div></div>`}
   catch(e){$('#vr').innerHTML=`<div class="panel empty">${esc(e.message)}</div>`}
 }
 
@@ -701,14 +638,15 @@ function viewAuth(){
       <form class="form ${authTab==='signup'?'on':''}" id="fSignup" onsubmit="doSignup(event)" novalidate>
         <label id="roleLbl">I am joining as</label>
         <div class="rolepick" role="group" aria-labelledby="roleLbl">
-          <button type="button" class="rcard" data-role="user" aria-pressed="${signupRole==='user'}" onclick="pickRole('user')"><b>📖 Student</b><span>Plan, memorize and request certification</span></button>
-          <button type="button" class="rcard" data-role="scholar" aria-pressed="${signupRole==='scholar'}" onclick="pickRole('scholar')"><b>🎓 Scholar</b><span>Listen, correct and certify readers</span></button>
-          <button type="button" class="rcard" data-role="madrasah" aria-pressed="${signupRole==='madrasah'}" onclick="pickRole('madrasah')" style="grid-column:1/-1"><b>🏫 I have a madrasah code</b><span>Students, teachers and madrasah admins join with the code their madrasah gave them</span></button>
+          <button type="button" class="rcard" data-role="user" aria-pressed="${signupRole==='user'}" onclick="pickRole('user')"><b>Student</b><span>Plan, memorize and request certification</span></button>
+          <button type="button" class="rcard" data-role="scholar" aria-pressed="${signupRole==='scholar'}" onclick="pickRole('scholar')"><b>Scholar</b><span>Listen, correct and certify readers</span></button>
+          <button type="button" class="rcard" data-role="madrasah" aria-pressed="${signupRole==='madrasah'}" onclick="pickRole('madrasah')" style="grid-column:1/-1"><b>I have a madrasah code</b><span>Students, teachers and madrasah admins join with the code their madrasah gave them</span></button>
         </div>
         <div class="reveal ${signupRole==='madrasah'?'open':''}" id="madBox">
           <div class="field"><label for="suC">Madrasah code</label><input id="suC" class="codeinput" maxlength="8" autocomplete="off" autocapitalize="characters" spellcheck="false" placeholder="S4K9XQ2M" oninput="madPeek(this)"><div id="peekBox"></div><div class="ferr" id="suCE" role="alert"></div></div>
           <div id="madFields"></div>
         </div>
+        <div class="reveal ${signupRole!=='madrasah'?'open':''}" id="indGender"><div class="field"><label id="igL">Gender</label><div class="seg" role="radiogroup" aria-labelledby="igL"><label class="segopt"><input type="radio" name="igen" value="male"><span>Male</span></label><label class="segopt"><input type="radio" name="igen" value="female"><span>Female</span></label></div><div class="hint">Used to match you with scholars of the same gender. It cannot be changed later.</div><div class="ferr" id="suGE" role="alert"></div></div></div>
         <div class="field"><label>Display name</label><input id="suN" placeholder="Your name"></div>
         <div class="field"><label>Username</label><input id="suU" autocomplete="username" autocapitalize="off" placeholder="a–z, 0–9, underscore"><div class="ferr" id="suUE" role="alert"></div></div>
         <div class="field"><label>Password</label><input id="suP" type="password" autocomplete="new-password" placeholder="At least 8 characters"><div class="ferr" id="suPE" role="alert"></div></div>
@@ -721,11 +659,11 @@ function viewAuth(){
         <button class="btn" style="width:100%" id="suB2">Create account</button>
       </form>
     </div>
-    <p style="text-align:center;margin-top:16px"><button class="linkbtn" onclick="go(returnView||defaultView())">← Continue browsing without an account</button></p>
+    <p style="text-align:center;margin-top:16px"><button class="linkbtn" onclick="go(returnView||defaultView())">Continue browsing without an account</button></p>
   </div>`;
   animate();(authTab==='signin'?$('#siU'):$('#suN')).focus();
 }
-const VIEWS={planner:viewPlanner,home:viewHome,quran:viewQuran,scholars:viewScholars,requests:viewRequests,queue:viewQueue,overview:viewOverview,users:viewUsers,allreq:viewAllReq,audit:viewAudit,verify:viewVerify,profile:viewProfile,signin:viewAuth,
+const VIEWS={planner:viewPlanner,quran:viewQuran,scholars:viewScholars,requests:viewRequests,queue:viewQueue,overview:viewOverview,users:viewUsers,allreq:viewAllReq,audit:viewAudit,verify:viewVerify,profile:viewProfile,signin:viewAuth,practice:viewPractice,
   /* madrasah module (js/madrasah.js) */
   progress:viewProgress,tdash:viewTeacher,roster:viewRoster,tsessions:viewTSessions,madrasahs:viewMadrasahs,analytics:viewAnalytics,members:viewMembers,msessions:viewMSessions,mdash:viewMDash};
 
@@ -741,18 +679,18 @@ function showInstallBar(){
 }
 function dismissInstall(){localStorage.setItem('nh_install_dismissed',Date.now());$('#installBar').classList.remove('show')}
 async function doInstall(){
-  if(!deferredInstall){toast(isIOS()?'Tap Share, then Add to Home Screen':'Use your browser menu → Install app');return}
+  if(!deferredInstall){toast(isIOS()?'Tap Share, then Add to Home Screen':'Use your browser menu Install app');return}
   deferredInstall.prompt();const r=await deferredInstall.userChoice;deferredInstall=null;$('#installBar').classList.remove('show');refreshInstallUI();
   if(r.outcome==='accepted')toast('Installing Noor Hifz…')
 }
 function refreshInstallUI(){
   const b=$('#instBtn2'),m=$('#instManual'),h=$('#instHint');if(!b)return;
-  if(isStandalone()){h.textContent='You are using the installed app. ✓';b.style.display='none';m.textContent='';return}
+  if(isStandalone()){h.textContent='You are using the installed app. ';b.style.display='none';m.textContent='';return}
   if(deferredInstall){b.style.display='';m.textContent=''}
   else{b.style.display='none';m.textContent=isIOS()?'On iPhone/iPad: tap Share, then “Add to Home Screen”.':'On Android (Chrome): open the ⋮ menu and choose “Install app” or “Add to Home screen”.'}
 }
 window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();deferredInstall=e;setTimeout(showInstallBar,4000);refreshInstallUI()});
-window.addEventListener('appinstalled',()=>{deferredInstall=null;$('#installBar').classList.remove('show');toast('Noor Hifz installed ✓');refreshInstallUI()});
+window.addEventListener('appinstalled',()=>{deferredInstall=null;$('#installBar').classList.remove('show');toast('Noor Hifz installed ');refreshInstallUI()});
 function setOnline(){const off=!navigator.onLine;$('#offlineBar').classList.toggle('show',off);if(!off&&typeof flushQueue==='function')flushQueue()}
 window.addEventListener('online',setOnline);window.addEventListener('offline',setOnline);
 if('serviceWorker' in navigator){
@@ -766,6 +704,10 @@ if('serviceWorker' in navigator){
   });
 }
 
+/* ---------- presence (who is online) ---------- */
+function ping(){if(session&&!document.hidden&&navigator.onLine)sb.rpc('presence_ping',{p_token:session.token}).then(()=>{},()=>{})}
+setInterval(ping,45000);document.addEventListener('visibilitychange',ping);
+
 /* ---------- boot ---------- */
 (async function boot(){
   applyTheme(localStorage.getItem('nh_theme')||'system');
@@ -777,6 +719,7 @@ if('serviceWorker' in navigator){
   else if(g&&VIEWS[g]){go(g)}
   else go(defaultView());
   if(typeof flushQueue==='function')flushQueue();
+  ping();if(typeof ensureGender==='function')ensureGender();if(typeof scheduleReminder==='function')scheduleReminder();
 })();
 </script>
 </body>
